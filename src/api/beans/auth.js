@@ -9,7 +9,7 @@ const { serverCompatible, login } = WRT_config;
  */
 export async function auth_token(username = "admin", axios) {
   axios = axios || getDefaultAxios();
-  const { data } = await axios.post("/au/token", {
+  const { data } = await axios.post("https://sourcephone.wzcitybrain.com:8081/LuApi/api/au/token", {
     username,
     password: "123",
     noToken: true
@@ -26,7 +26,7 @@ export async function auth_token_info(params, axios) {
   axios = axios || getDefaultAxios();
   let data = [{ au_username: null, group: [] }];
   try {
-    const response = await axios.get("/au/token/info?res=testsql_all", {
+    const response = await axios.get("http://lysb.lucheng.gov.cn/api/au/token/info?res=testsql_all", {
       noToken: false
     });
     data = response.data;
@@ -64,7 +64,7 @@ export async function auth_verify(username, password) {
  */
 export async function passport_update(password, au_userid) {
   const axios = getDefaultAxios();
-  const { data } = await axios.put(`/au/users/${au_userid}/psd/change`, {
+  const { data } = await axios.put(`http://lysb.lucheng.gov.cn/api/au/users/${au_userid}/psd/change`, {
     new_psd: password,
     noToken: false
   });
@@ -73,17 +73,17 @@ export async function passport_update(password, au_userid) {
 //新增数据
 export async function addDataStores(table, params, axios) {
   axios = axios || getDefaultAxios();
-  return await axios.post("/dw/datastores/" + table, params);
+  return await axios.post("http://lysb.lucheng.gov.cn/api/dw/datastores/" + table, params);
 }
 
 //修改数据
 export async function updateDataStores(table, params, axios) {
   axios = axios || getDefaultAxios();
-  return await axios.post("/dw/datastores/" + table, params);
+  return await axios.post("http://lysb.lucheng.gov.cn/api/dw/datastores/" + table, params);
 }
 
 //查询数据
 export async function getDataStores(params, axios) {
   axios = axios || getDefaultAxios();
-  return await axios.post("/dw/datastores", params);
+  return await axios.post("http://lysb.lucheng.gov.cn/api/dw/datastores", params);
 }
