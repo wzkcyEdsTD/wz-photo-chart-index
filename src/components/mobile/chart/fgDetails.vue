@@ -299,7 +299,7 @@ export default {
       title: "",
       impdata:0,
       impdataf:0,
-      imprate:"0%",
+      imprate:"100%",
       num: [
         {
           title: "复工复产备案企业",
@@ -524,7 +524,7 @@ export default {
 
         that.impdata = sumwzg;
         that.impdataf = sumyzg;
-        that.imprate = sumwzg<=0?"0%":parseInt((sumyzg/sumwzg)*100)+"%";
+        that.imprate = sumwzg<=0?"100%":parseInt((sumyzg/sumwzg)*100)+"%";
 
         console.log("已整改：",sumyzg,"未整改",sumwzg)
 

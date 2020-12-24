@@ -16,17 +16,17 @@ export default {
     ...mapActions(["fetchFgList"]),
     drawEchart() {
       this.chart = this.$echarts.init(this.$refs.fg);
-      console.log("chart",this.chartData)
+      console.log("chart", this.chartData);
       var arry = this.chartData.test;
-      console.log("arry",arry,"arry2",arry.reverse())
+      console.log("arry", arry, "arry2", arry.reverse());
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "shadow"
+            type: "shadow",
           },
           textStyle: {
-            align: "left"
+            align: "left",
           },
           // formatter: function(a) {
           //   console.log(a);
@@ -38,10 +38,10 @@ export default {
         },
         grid: {
           top: "5%",
-          left: "0",
-          right: "4%",
+          left: "5",
+          right: "5%",
           bottom: "5%",
-          containLabel: true
+          containLabel: true,
         },
         // legend: {
         //   show: true,
@@ -57,40 +57,40 @@ export default {
         // },
         yAxis: [
           {
-            
             boundaryGap: true,
             type: "category",
             axisTick: {
               show: false,
               color: "#fff",
-              alignWithLabel: true
+              alignWithLabel: true,
             },
-            inverse:true,
+            inverse: true,
             axisLabel: {
               textStyle: {
                 fontSize: 12,
-                color: "#fff"
+                color: "#fff",
               },
               interval: 0,
             },
             axisLine: {
               show: true,
               lineStyle: {
-                color: "#fff"
-              }
-            },
-            data: this.chartData.name
-          },{
-              axisTick: 'none',
-              axisLine: 'none',
-              axisLabel: {
-                  textStyle: {
-                      color: '#ffffff',
-                      fontSize: '16',
-                  }
+                color: "#fff",
               },
-              data:arry
-          }
+            },
+            data: this.chartData.name,
+          },
+          {
+            axisTick: "none",
+            axisLine: "none",
+            axisLabel: {
+              textStyle: {
+                color: "#ffffff",
+                fontSize: 12,
+              },
+            },
+            data: arry,
+          },
         ],
         xAxis: {
           show: false,
@@ -98,22 +98,22 @@ export default {
           name: "整改率",
           nameTextStyle: {
             fontSize: 14,
-            color: "#fff"
+            color: "#fff",
           },
           axisLabel: {
             textStyle: {
               fontSize: 12,
-              color: "#fff"
-            }
+              color: "#fff",
+            },
           },
           splitLine: {
             show: false,
           },
           axisLine: {
             lineStyle: {
-              color: "#fff"
-            }
-          }
+              color: "#fff",
+            },
+          },
         },
         series: [
           // {
@@ -140,30 +140,36 @@ export default {
           //   data:this.chartData.rate,
           // },
           {
-            name: '整改率',
-            type: 'bar',
+            name: "整改率",
+            type: "bar",
             yAxisIndex: 0,
             label: {
-                normal: {
-                    show: true,
-                    position: 'inside',
-                    textStyle: {
-                        color: '#ffffff',
-                        fontSize: '12',
-                    },
-                    formatter: function (params) {
-                        return params.value+"%";
-                    }
-
-                }
+              normal: {
+                show: true,
+                position: "inside",
+                textStyle: {
+                  color: "#ffffff",
+                  fontSize: "12",
+                },
+                formatter: function (params) {
+                  return params.value + "%";
+                },
+              },
             },
             barWidth: 15,
+            barCategoryGap: 15,
             itemStyle: {
-                normal: {
-                    color: function(param) {
-                        return param.value< 80? '#f82727':param.value<90? "#ff912f":param.value<95? "#64f855": "#30a5f0"
-                    },
-                }
+              normal: {
+                color: function (param) {
+                  return param.value < 80
+                    ? "#f82727"
+                    : param.value < 90
+                    ? "#ff912f"
+                    : param.value < 95
+                    ? "#64f855"
+                    : "#30a5f0";
+                },
+              },
             },
             data: this.chartData.rate,
           },
@@ -182,22 +188,21 @@ export default {
           //   },
           //   z: 0
           // },
-
-        ]
+        ],
       });
-    }
+    },
   },
   mounted() {
     this.fetchFgList().then(() => {
       this.drawEchart();
     });
-  }
+  },
 };
 </script>
 <style scoped>
 .fg-chart {
-  width:100%;
-  overflow:auto;
+  width: 100%;
+  overflow: auto;
   height: auto;
 }
 .fg-chart-title {
@@ -209,24 +214,23 @@ export default {
   font-weight: bold;
 }
 .fg-chart-content {
-  height: 300px;
-  width:100%;
+  height: 400px;
+  width: 100%;
 }
-.toolinfobox{
-  width:80px;
-  border-radius:10px;
-  background:rgba(255, 255, 255, 0.7);
-  padding:15px;
-  
+.toolinfobox {
+  width: 80px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px;
 }
-.toolinfobox .toolitem{
-  height:25px;
-  width:100%;
+.toolinfobox .toolitem {
+  height: 25px;
+  width: 100%;
   overflow: hidden;
 }
-.toolinfobox .toolitem span{
-  font-weight:bold;
-  font-size:12px;
-  line-height:25px;
+.toolinfobox .toolitem span {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 25px;
 }
 </style>
