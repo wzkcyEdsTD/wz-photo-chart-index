@@ -1,5 +1,4 @@
 import { getDefaultAxios } from "@/api/index.js";
-import jiekou from "./jiekou.js"
 const RES = "sql_wzxgfy";
 
 /**
