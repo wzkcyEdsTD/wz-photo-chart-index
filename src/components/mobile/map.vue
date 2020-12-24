@@ -3,22 +3,22 @@
     <!-- <div class="title">
       <span>温州市新冠肺炎防控作战地图</span>
     </div>-->
-    <header class="app_header">温州市被征地农民参保</header>
+    <!-- <header class="app_header">温州市被征地农民参保</header> -->
     <div class="infoline">
       <span class="line1">总人数</span>
-      <span class="line2">163</span>
+      <span class="line2">{{alldata}}</span>
       <span class="line1">人；已整改</span>
-      <span class="line2">134</span>
+      <span class="line2">{{alldataf}}</span>
       <span class="line1">人；整改率</span>
-      <span class="line2">82%</span>
+      <span class="line2">{{allrate}}</span>
     </div>
-    <div class="infoline" style="top:95px">
+    <div class="infoline" style="top:40px">
       <span class="line1">重点人员</span>
-      <span class="line2">163</span>
+      <span class="line2">{{impdata}}</span>
       <span class="line1">人；已整改</span>
-      <span class="line2">134</span>
+      <span class="line2">{{impdataf}}</span>
       <span class="line1">人；整改率</span>
-      <span class="line2">82%</span>
+      <span class="line2">{{imprate}}</span>
     </div>
     <div class="qz" v-if="current == 2">
       <div class="qz_num">
@@ -102,6 +102,13 @@ export default {
     return {
       sfdate: "",
       sftime: "",
+      alldata:0,
+      alldataf:0,
+      allrate:"0%",
+
+      impdata:0,
+      impdataf:0,
+      imprate:"0%",
       toptab: [
         {
           label: "复工复产",
@@ -323,20 +330,21 @@ export default {
       width:100%;
       box-sizing: border-box;
       padding:0 15px;
-      height:40px;
+      height:35px;
       background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
       text-align: center;
-      top:50px;
+      top:10px;
       right:0px;
+      z-index:10;
     .line1{
       font-size:12px;
-      line-height:40px;
+      line-height:35px;
       font-weight:bold;
       color:#fff;
     }
     .line2{
       font-size:12px;
-      line-height:40px;
+      line-height:35px;
       font-weight:bold;
       color:#ffbf13
     }

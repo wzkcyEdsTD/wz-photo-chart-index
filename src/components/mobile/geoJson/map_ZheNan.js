@@ -830,7 +830,7 @@ export default {
         },
         "properties": {
             "OBJECTID": 1,
-            "区县": "浙南产业集聚区",
+            "区县": "经开区",
             "name": "海城街道",
             "Shape_Area": 0.001371025966390,
             "Shape_Leng": 0.1838411438520,
@@ -2861,7 +2861,7 @@ export default {
         },
         "properties": {
             "OBJECTID": 2,
-            "区县": "浙南产业集聚区",
+            "区县": "经开区",
             "name": "沙城街道",
             "Shape_Area": 0.0006025906123610,
             "Shape_Leng": 0.1645643238750,
@@ -4841,7 +4841,7 @@ export default {
         },
         "properties": {
             "OBJECTID": 3,
-            "区县": "浙南产业集聚区",
+            "区县": "经开区",
             "name": "天河街道",
             "Shape_Area": 0.00147674300110,
             "Shape_Leng": 0.2940649006390,
@@ -5456,7 +5456,7 @@ export default {
         },
         "properties": {
             "OBJECTID": 5,
-            "区县": "浙南产业集聚区",
+            "区县": "经开区",
             "name": "星海街道",
             "Shape_Area": 0.002228590996230,
             "Shape_Leng": 0.2869448850840,

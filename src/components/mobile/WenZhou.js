@@ -382,7 +382,7 @@ export default {
         "type": "Feature",
         "properties": {
             "adcode": 330303,
-            "name": "浙南",
+            "name": "经开区",
             "center": [120.763469, 27.970254],
             "centroid": [120.815894, 27.890969],
             "childrenNum": 0,

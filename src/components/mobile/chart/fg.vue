@@ -18,82 +18,70 @@
                   类型
                 </td>
                 <td >
-                  待整改
+                  已整改
                 </td>
                 <td>
-                  已整改
+                  待整改
                 </td>
               </tr>
               <tr>
                 <td>A</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{dataa1}}</td>
+                <td style="color:red">{{dataa2}}</td>          
               </tr>
               <tr>
                 <td>B</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{datab1}}</td>
+                <td style="color:red">{{datab2}}</td>         
               </tr>
               <tr>
                 <td>C</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{datac1}}</td>
+                <td style="color:red">{{datac2}}</td>
               </tr>
               <tr>
                 <td>D</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{datad1}}</td>
+                <td style="color:red">{{datad2}}</td>
               </tr>
               <tr>
                 <td>E</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{datae1}}</td>
+                <td style="color:red">{{datae2}}</td>
               </tr>
               <tr>
                 <td>F</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{dataf1}}</td>
+                <td style="color:red">{{dataf2}}</td>
               </tr>
               <tr>
                 <td>G</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{datag1}}</td>
+                <td style="color:red">{{datag2}}</td>
               </tr>
               <tr>
                 <td>H</td>
-                <td style="color:red">0</td>
-                <td style="color:#28DEC8">0</td>
+                <td style="color:#28DEC8">{{datah1}}</td>
+                <td style="color:red">{{datah2}}</td>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(item,key,index) in objData" :key="index">
-                <td>{{key}}</td>
-                <!-- <td>{{item.ysq_qy_cnt}}</td>
-                <td>{{item.ysq_gsqy_cnt}}</td>
-                <td>{{item.ysq_tzyygc_cnt}}</td>
-                <td>{{item.ysq_snfgrs_cnt}}</td>
-                <td>{{item.ysq_swfgrs_cnt}}</td> -->
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-            </tbody>
+            
           </table>
         </div>
       </div>
     </div>
 
     <div id="nyjj-map"></div>
-    <img class="sftl" src="../img/tjicon.png" />
+    
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
-      <div class="t1">完成率＜20%</div>
-      <div class="t2">20%~50%</div>
-      <div class="t3">50%~80%</div>
-      <div class="t4">＞80%</div>
+      <div class="t1">整改率＜80%</div>
+      <div class="t2">80%~90%</div>
+      <div class="t3">90%~95%</div>
+      <div class="t4">＞95%</div>
     </div>
-    <div class="infospan">数据截止：{{date}}</div>
-    <fgqy :chartData="fixed_qy" ref="qf_chart" />
+    <div class="infospan">数据截止：{{tm}}</div>
+    <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" />
     <!-- <fgyg :chartData="fixed_yg" ref="fg_chart" /> -->
     <!-- 底部 -->
     <div class="bottom">
@@ -112,8 +100,10 @@ import wenzhouMap from "../geoJson/WenZhou";
 import fgqy from "./sfChart/fgqy";
 import fgyg from "./sfChart/fgyg";
 import fgTop from "./fgTop";
+
 import { mapdata } from "../mapdata";
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   data() {
@@ -123,9 +113,32 @@ export default {
       num: [
         
       ],
+      tm:"",
+      impinfo:[],
       staticNum: [0, 0, 0, 0],
       fixed_yg: { name: [], hb: [], rest: [] },
       fixed_qy: { name: [], hb: [], rest: [] },
+      picactive:false,
+      jkList:[],
+      dataa1:0,
+      datab1:0,
+      datac1:0,
+      datad1:0,
+      datae1:0,
+      dataf1:0,
+      datag1:0,
+      datah1:0,
+      dataa2:0,
+      datab2:0,
+      datac2:0,
+      datad2:0,
+      datae2:0,
+      dataf2:0,
+      datag2:0,
+      datah2:0,
+      alldata:0,
+      alldataf:0,
+      allrate:"0%",
       objData:[],
       date: "",
       time: "",
@@ -148,6 +161,7 @@ export default {
   },
   mounted() {
     var date = new Date();
+
     //var strdate = new Date(value.createtime.replace(/-/g, '/'))
     var year = date.getFullYear();
     var month = date.getMonth()<9?"0"+(date.getMonth()+1):date.getMonth()+1;
@@ -156,18 +170,81 @@ export default {
     this.date = year+"年"+month+"月"+day+"日"+hour+"时"
     this.NYJJMapInit(); //调用地图
     !this.FgfcList.length && this.fetchFgfcList();
+
+    this.getimpinfo()
     //this.fgfcDataFix();
 
   },
   methods: {
     ...mapActions(["fetchFgfcList"]),
     
+
+    getimpinfo()
+    {
+      const that = this;
+      //const axios = getDefaultAxios();
+     axios
+      .get(
+        "https://sourcephone.wzcitybrain.com:8081/Interface/statistics/ProxyGetCityBraainData?params=&code=100023038&systype=1"
+      )
+      .then((res) => {
+        
+        that.jkList = JSON.parse(res.data.result).data;
+        var sumyzg = 0;
+        var sumwzg=0;
+        that.jkList.forEach((element)=>{
+          sumyzg+=parseInt(element.has_rectification_number);
+          sumwzg+=parseInt(element.after_rectification_number);
+        })
+        console.log(that.jkList.length)
+        console.log("after",sumyzg);
+        console.log("has",sumwzg);
+        console.log(sumyzg/(sumyzg+sumwzg))
+        that.$parent.impdata = sumwzg;
+        that.$parent.impdataf = sumyzg;
+        that.$parent.imprate = sumwzg<=0?"0%":parseInt((sumyzg/sumwzg)*100)+"%";
+
+
+        window.localStorage.setItem("impdata",sumwzg);
+        window.localStorage.setItem("impdataf",sumyzg);
+        window.localStorage.setItem("imprate",sumwzg<=0?"0%":parseInt((sumyzg/sumwzg)*100)+"%")
+        console.log("已整改：",sumyzg,"未整改",sumwzg)
+
+      });
+      //this.impinfo = axios.get("")
+    },
+
+    strtime(value){
+      var dt = new Date(value);
+      var month = dt.getMonth()<9?"0"+(dt.getMonth()+1):dt.getMonth()+1;
+      var day = dt.getDate()<10?"0"+dt.getDate():dt.getDate();
+      var hour = dt.getHours()<10?"0"+dt.getHours():dt.getHours();
+      var minute = dt.getMinutes()<10?"0"+dt.getMinutes():dt.getMinutes();
+      return month+"月"+day+"日"+hour+"时"+minute+"分"
+    },
+
     fgfcDataFix() {
       if (!this.FgfcList.length) return;
       // this.date = this.FgfcList[0].gxsj.substring(8, 10);
       // this.time = this.FgfcList[0].gxsj.substring(11, 16);
       // this.$parent.sfdate = this.FgfcList[0].gxsj.substring(8, 10);
       // this.$parent.sftime = this.FgfcList[0].gxsj.substring(11, 16);
+      let dataa1=0;
+      let datab1=0;
+      let datac1=0;
+      let datad1=0;
+      let datae1=0;
+      let dataf1=0;
+      let datag1=0;
+      let datah1=0;
+      let dataa2=0;
+      let datab2=0;
+      let datac2=0;
+      let datad2=0;
+      let datae2=0;
+      let dataf2=0;
+      let datag2=0;
+      let datah2=0;
       const mapqyObj = {};
       const mapygObj = {};
       const mapyzg={};
@@ -176,8 +253,11 @@ export default {
       const ygObj = {};
       const num = [0, 0];
       const staticNum = [0, 0, 0, 0];
+    
+      this.tm = this.strtime(this.FgfcList[0].data_point)
       this.FgfcList.map(item => {
-        const _xq_ = item.area1.replace(/产业集聚区/g, "");
+        console.log("111",item)
+        const _xq_ = item.area_name.replace(/产业集聚区/g, "");
         //  头部
         // num[0] += parseInt(item.ysq_qy_cnt); //  复工申请企业数
         // num[1] += parseInt(item.ysq_snfgrs_cnt) + parseInt(item.ysq_swfgrs_cnt); //  复工申请员工数(市内市外)
@@ -193,11 +273,31 @@ export default {
         //  地图
         // !mapqyObj[_xq_] && (mapqyObj[_xq_] = 0);
         // !mapygObj[_xq_] && (mapygObj[_xq_] = 0);
+        dataa1 +=parseInt(item.has_rectification_number_type_A);
+        datab1 +=parseInt(item.has_rectification_number_type_B);
+        datac1 +=parseInt(item.has_rectification_number_type_C);
+        datad1 +=parseInt(item.has_rectification_number_type_D);
+        datae1 +=parseInt(item.has_rectification_number_type_E);
+        dataf1 +=parseInt(item.has_rectification_number_type_F);
+        datag1 +=parseInt(item.has_rectification_number_type_G);
+        datah1 +=parseInt(item.has_rectification_number_type_H);
+        
+        dataa2 +=parseInt(item.after_rectification_number_type_A);
+        datab2 +=parseInt(item.after_rectification_number_type_B);
+        datac2 +=parseInt(item.after_rectification_number_type_C);
+        datad2 +=parseInt(item.after_rectification_number_type_D);
+        datae2 +=parseInt(item.after_rectification_number_type_E);
+        dataf2 +=parseInt(item.after_rectification_number_type_F);
+        datag2 +=parseInt(item.after_rectification_number_type_G);
+        datah2 +=parseInt(item.after_rectification_number_type_H);
+
+
         !mapyzg[_xq_] && (mapyzg[_xq_] = 0);
         !mapwzg[_xq_] && (mapwzg[_xq_] = 0);
-        mapyzg[_xq_] +=parseInt(item.Sumyzg);
-        mapwzg[_xq_] +=parseInt(item.Sumwzg);
-        mapqyObj[_xq_] =mapwzg[_xq_]<=0?0:parseInt((mapyzg[_xq_]/mapwzg[_xq_])*100); //(mapyzg[_xq_]+mapwzg[_xq_])<=0?0:mapyzg[_xq_]/(mapyzg[_xq_]+mapwzg[_xq_])
+        mapyzg[_xq_] +=parseInt(item.has_rectification_number);
+        mapwzg[_xq_] +=parseInt(item.after_rectification_number);
+        mapqyObj[_xq_] =(mapwzg[_xq_]+mapyzg[_xq_])<=0?100:((mapyzg[_xq_]/(mapwzg[_xq_]+mapyzg[_xq_]))*100).toFixed(1); //(mapyzg[_xq_]+mapwzg[_xq_])<=0?0:mapyzg[_xq_]/(mapyzg[_xq_]+mapwzg[_xq_])
+        if(mapqyObj[_xq_]>=100){mapqyObj[_xq_]=100;}
         // mapygObj[_xq_] +=
         //   parseInt(item.ysq_snfgrs_cnt) + parseInt(item.ysq_swfgrs_cnt);
         // //  企业分析
@@ -207,6 +307,7 @@ export default {
           qyObj[_xq_].Sumyzg =mapyzg[_xq_];
           qyObj[_xq_].Sumwzg =  mapwzg[_xq_];
           qyObj[_xq_].rate = mapqyObj[_xq_];
+          qyObj[_xq_].test = String(qyObj[_xq_].Sumyzg)+"/"+String(qyObj[_xq_].Sumwzg+qyObj[_xq_].Sumyzg) ;
           // qyObj[_xq_].rest +=
           //   parseInt(item.ysq_qy_cnt) -
           //   parseInt(item.ysq_tzyygc_cnt) -
@@ -225,27 +326,36 @@ export default {
           ...item,
           value: mapyzg[item.name] || 0,
           value2: mapwzg[item.name] || 0,
-          value3: mapqyObj[item.name] || 0,
+          value3: mapqyObj[item.name] || 100,
         };
       });
-      const _qy_ = [];
-      const fixed_qy = { name: [], Sumyzg: [], Sumwzg: [], rate: [], rest: [] };
+      var _qy_ = [];
+      const fixed_qy = { name: [], Sumyzg: [], Sumwzg: [], rate: [], rest: [],test:[] };
       for (let v in qyObj) {
         if(v!="")
         {
           _qy_.push(qyObj[v]);
         } 
       }
+      console.log("111",_qy_)
+      _qy_ = _qy_.sort((item,item2)=>{
+        return Number(item.rate)-Number(item2.rate);
+      })
       _qy_
-        .sort(this.$util.compare("rate"))
         .reverse()
-        .map(({ name, Sumyzg, Sumwzg, rate }) => {
+        .map(({ name, Sumyzg, Sumwzg, rate,test }) => {
           fixed_qy.name.push(name);
           fixed_qy.Sumyzg.push(Sumyzg);
           fixed_qy.Sumwzg.push(Sumwzg);
-          fixed_qy.rate.push(rate);
+          fixed_qy.rate.push(Number(rate));
+          fixed_qy.test.push(test);
           //fixed_qy.all.push(all);
         });
+
+
+      
+      console.log("sort",fixed_qy)
+      this.picactive = true;
       const _yg_ = [];
       const fixed_yg = { name: [], all: [], sn: [], sw: [] };
       for (let v in ygObj) {
@@ -263,6 +373,30 @@ export default {
       this.num = this.num.map((item, index) => {
         return { ...item, value: num[index] };
       });
+      this.dataa1 = dataa1;
+      this.datab1 = datab1;
+      this.datac1 = datac1;
+      this.datad1 = datad1;
+      this.datae1 = datae1;
+      this.dataf1 = dataf1;
+      this.datag1 = datag1;
+      this.datah1 = datah1;
+
+      this.dataa2 = dataa2;
+      this.datab2 = datab2;
+      this.datac2 = datac2;
+      this.datad2 = datad2;
+      this.datae2 = datae2;
+      this.dataf2 = dataf2;
+      this.datag2 = datag2;
+      this.datah2 = datah2;
+      
+      var sumdata = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
+      var sumdataf = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
+      this.$parent.alldata =sumdata; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
+      this.$parent.alldataf =sumdataf; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
+      this.$parent.allrate = sumdata<=0?"0%":parseInt((sumdataf/sumdata)*100)+"%";
+
       this.staticNum = staticNum;
       this.fixed_qy = fixed_qy;
       this.fixed_yg = fixed_yg;
@@ -339,13 +473,13 @@ export default {
                   // color: item.color || "#fff"
                   // 根据备案员工人数判断颜色
                   color:
-                    item.value3>= 80
-                      ? '#31A5F2'//"#689c20"
-                      : item.value3>=50
-                      ? "#63F856"
-                      : item.value3>=20
+                    item.value3< 80
+                      ? '#f82727'//"#689c20"
+                      : item.value3<90
                       ? "#ff912f"
-                      : "#f82727"
+                      : item.value3<95
+                      ? "#64f855"
+                      : "#30a5f0"
                 },
                 coord: item.coord
               };
@@ -377,15 +511,10 @@ export default {
                               .replace("县", "")
                               .replace("区", "")
                               .replace("市", "") +
-                            "}",
-                          "{num1|" +
-                            params.data.value +
-                            "}/{num2|" +
-                            params.data.value2 +
-                            "}/{num3|"+
+                            "}{num3|"+
                             params.data.value3+'%'+
                             "}"
-                        ].join("\n")
+                        ]
                       : [
                           "{title1|" +
                             params.data.name
@@ -398,7 +527,7 @@ export default {
                             "}/{num4|" +
                             params.data.ygvalue +
                             "}"
-                        ].join("\n");
+                        ]
                   },
                   rich: {
                     title: {
@@ -486,25 +615,25 @@ export default {
 .sf {
   width: 100%;
   position: fixed;
-  top: 140px;
+  top: 50px;
   bottom: 22px;
   overflow-y: auto;
 
 .infospan{
-  width:60%;
-  margin:10px auto;
+  width:100%;
+  //margin:10px auto;
   background:url(../img/bbg.png) center center no-repeat;
   background-size:100% 100%;
-  height:45px;
+  height:30px;
   font-size:14px;
-  line-height:45px;
+  line-height:35px;
   color:#fff;
-  position: absolute;
-  top:5px;
+  position: fixed;
   right:0px;
+  bottom:0px
 }
 .tbox{
-    background:url(../img/tablebox.png) center center no-repeat;
+    //background:url(../img/tablebox.png) center center no-repeat;
     background-size:100% 100%;
     padding:10px 15px;
     font-size:10px;
@@ -523,7 +652,7 @@ export default {
  
 
   #nyjj-map {
-    margin-top:120px;
+    margin-top:75px;
     width: 100%;
     height: 80%;
   }

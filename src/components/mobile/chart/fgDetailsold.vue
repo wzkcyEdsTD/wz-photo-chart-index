@@ -1,28 +1,26 @@
 <template>
   <div class="sfDetails">
-    <!-- <div class="head">
+    <div class="head">
       <img src="../img/back.png" @click="back()" />
-      <p>{{ $route.query.label }}被征地农民参保</p>
-    </div> -->
+      <p>{{$route.query.label}}被征地农民参保</p>
+    </div>
     <!-- <fgtop :num="num" /> -->
-    <p style="padding: 10px 0px; font-size: 18px;font-weight:bold">{{$route.query.label}}各乡镇街道八类人员整改率</p>
-    <div class="infoline">
-      <span class="line1">总人数：</span>
-      <span class="line2">{{sumperson}}</span>
-      <span class="line1">人；已整改：</span>
-      <span class="line2">{{ sumdatehas }}</span>
-      <span class="line1">人；整改率：</span>
-      <span class="line2">{{sumdaterate}}%</span>
-    </div>
-    <div class="infoline" style="top:40px">
-      <span class="line1">重点人员</span>
-      <span class="line2">{{impdata}}</span>
+    <div class="infoline" style="margin-bottom:5px">
+      <span class="line1">总人数</span>
+      <span class="line2">{{sumwzg}}</span>
       <span class="line1">人；已整改</span>
-      <span class="line2">{{impdataf}}</span>
+      <span class="line2">{{sumyzg}}</span>
       <span class="line1">人；整改率</span>
-      <span class="line2">{{imprate}}</span>
+      <span class="line2"></span>
     </div>
-    
+    <div class="infoline" style="margin-top:0px">
+      <span class="line1">总人数</span>
+      <span class="line2">{{sumwzg}}</span>
+      <span class="line1">人；已整改</span>
+      <span class="line2">{{sumyzg}}</span>
+      <span class="line1">人；整改率</span>
+      <span class="line2"></span>
+    </div>
     <!-- <div id="bl-head">
       <ul>
         <li v-for="(item,index) in tabdata" :key="index">
@@ -34,18 +32,14 @@
         </li>
       </ul>
     </div> -->
-    <div class="tbox" v-if="infoactive">
-      <table
-        style="width: 100%; font-size: 12px"
-        cellpadding="0"
-        cellspacing="0"
-      >
+    <div class="tbox">
+      <table style="width:100%;font-size:12px;" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
             <td>类型</td>
             <td>A</td>
             <td>B</td>
-            <td>C</td>
+            <td>c</td>
             <td>D</td>
             <td>E</td>
             <td>F</td>
@@ -53,41 +47,42 @@
             <td>H</td>
           </tr>
           <tr>
-            <td>已整改</td>
-            <td style="color: #28dec8">{{dtarrya[0]}}</td>
-            <td style="color: #28dec8">{{dtarryb[0]}}</td>
-            <td style="color: #28dec8">{{dtarryc[0]}}</td>
-            <td style="color: #28dec8">{{dtarryd[0]}}</td>
-            <td style="color: #28dec8">{{dtarrye[0]}}</td>
-            <td style="color: #28dec8">{{dtarryf[0]}}</td>
-            <td style="color: #28dec8">{{dtarryg[0]}}</td>
-            <td style="color: #28dec8">{{dtarryh[0]}}</td>
-          </tr>
-           <tr>
             <td>待整改</td>
-            <td style="color: red">{{dtarrya[1]}}</td>
-            <td style="color: red">{{dtarryb[1]}}</td>
-            <td style="color: red">{{dtarryc[1]}}</td>
-            <td style="color: red">{{dtarryd[1]}}</td>
-            <td style="color: red">{{dtarrye[1]}}</td>
-            <td style="color: red">{{dtarryf[1]}}</td>
-            <td style="color: red">{{dtarryg[1]}}</td>
-            <td style="color: red">{{dtarryh[1]}}</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
           </tr>
+          <tr>
+            <td>已整改</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+          </tr>
+          
         </thead>
+       
       </table>
     </div>
     <div class="mapDiv" id="mapDiv">
       <div id="xq-map"></div>
       <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
     </div>
-    <div class="infospan">数据截止：{{tm}}</div>
-    <div class="kind">  
-      <div class="t1">整改率＜80%</div>
-      <div class="t2">80%~90%</div>
-      <div class="t3">90%~95%</div>
-      <div class="t4">＞95%</div>
-      
+    <div class="kind">
+      <p style="padding:15px 0px;font-size:16px;">各街道完成率</p>
+      <div class="t1">完成率＜20%</div>
+      <div class="t2">20%~50%</div>
+      <div class="t3">50%~80%</div>
+      <div class="t4">＞80%</div>
     </div>
     <!-- <div class="kind">
       <p style="height: 23px;">提交复工申请企业总数</p>
@@ -97,108 +92,90 @@
       <div class="t4">＜0.5万家</div>
     </div>-->
     <!-- 返工信息 -->
-    <div class="bltitle" style="width: 96%; margin-left: 2%">
+    <div class="bltitle" style="width:96%;margin-left: 2%;">
       <img src="../img/blxq.png" />
       <p>
         整改信息
-        <i style="color: #ccc; font-style: normal">（左右可拖动查阅）</i>
+        <i style="color:#ccc;font-style:normal;">（左右可拖动查阅）</i>
       </p>
     </div>
-    <div
-      id="tbbox"
-      style="width: 96%; overflow: auto; margin-left: 2%; padding-bottom: 15px"
-    >
-      <table
-        style="width: 1500px; font-size: 12px"
-        cellpadding="0"
-        cellspacing="0"
-      >
+    <div id="tbbox" style="width: 96%;overflow: auto;margin-left: 2%;padding-bottom: 15px;">
+      <table style="width:1500px;font-size:12px;" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
-            <td rowspan="2" style="width: 50px">
+            <td rowspan="2" style="width:60px;">
               乡镇
               <br />街道
             </td>
-            <td colspan="3">八类人员</td>
-            <td colspan="3">A类</td>
-            <td colspan="3">B类</td>
-            <td colspan="3">C类</td>
-            <td colspan="3">D类</td>
-            <td colspan="3">E类</td>
-            <td colspan="3">F类</td>
-            <td colspan="3">G类</td>
-            <td colspan="3">H类</td>
+             <td colspan="3">
+              重点人员
+            </td>
+            <td colspan="3">
+              A类
+            </td>
+            <td colspan="3">
+              B类
+            </td>
+            <td colspan="3">
+              C类
+            </td>
+            <td colspan="3">
+             D类
+            </td>
+            <td colspan="3">
+              E类
+            </td>
+            <td colspan="3">
+              F类
+            </td>
+            <td colspan="3">
+              G类
+            </td>
+            <td colspan="3">
+              H类
+            </td>
           </tr>
-          <tr>
-            <td>已整改</td>
+           <tr>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
-            <td>已整改</td>
             <td>待整改</td>
+            <td>已整改</td>
             <td>整改率</td>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, key, index) in objData" :key="index">
-            <td>{{ key }}</td>
-            <td>{{ item.has.sum}}</td>
-            <td>{{ item.after.sum }}</td>
-            <td>{{ filtnum(item.rate.sum) }}</td>
-
-            <td>{{ item.has.A}}</td>
-            <td>{{ item.after.A }}</td>
-            <td>{{ filtnum(item.rate.A) }}</td>
-
-             <td>{{ item.has.B}}</td>
-            <td>{{ item.after.B }}</td>
-            <td>{{ filtnum(item.rate.B) }}</td>
-
-             <td>{{ item.has.C}}</td>
-            <td>{{ item.after.C }}</td>
-            <td>{{ filtnum(item.rate.C) }}</td>
-
-             <td>{{ item.has.D}}</td>
-            <td>{{ item.after.D }}</td>
-            <td>{{ filtnum(item.rate.D)}}</td>
-
-             <td>{{ item.has.E}}</td>
-            <td>{{ item.after.E }}</td>
-            <td>{{ filtnum(item.rate.E) }}</td>
-
-             <td>{{ item.has.F}}</td>
-            <td>{{ item.after.F }}</td>
-            <td>{{ filtnum(item.rate.F) }}</td>
-
-             <td>{{ item.has.G}}</td>
-            <td>{{ item.after.G }}</td>
-            <td>{{ filtnum(item.rate.G) }}</td>
-            
-             <td>{{ item.has.H}}</td>
-            <td>{{ item.after.H }}</td>
-            <td>{{ filtnum(item.rate.H) }}</td>
-            
-            <!-- <td>0</td>
+          <tr v-for="(item,key,index) in objData" :key="index">
+            <td>{{key}}</td>
+            <!-- <td>{{item.ysq_qy_cnt}}</td>
+            <td>{{item.ysq_gsqy_cnt}}</td>
+            <td>{{item.ysq_tzyygc_cnt}}</td>
+            <td>{{item.ysq_snfgrs_cnt}}</td>
+            <td>{{item.ysq_swfgrs_cnt}}</td> -->
+            <td>{{item.Sumwzg}}</td>
+            <td>{{item.Sumyzg}}</td>
+            <td>{{item.rate}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -221,7 +198,8 @@
             <td>0</td>
             <td>0</td>
             <td>0</td>
-            <td>0</td> -->
+            <td>0</td>
+            <td>0</td>
           </tr>
         </tbody>
       </table>
@@ -240,7 +218,6 @@
         <img style src="../img/logo.png" @click="showLogo()" />
       </p>
     </div> -->
-    <div style="height:60px;"></div>
   </div>
 </template>
 
@@ -277,9 +254,8 @@ import {
   GEO_TAISHUN,
   GEO_CANGNAN,
   GEO_WENCHENG,
-  GEO_PINGYANG,
+  GEO_PINGYANG
 } from "../data/geo_Data";
-import axios from "axios";
 
 export default {
   components: { fgtop },
@@ -289,33 +265,24 @@ export default {
         { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
         { label: "温州籍返工", value: 0, color: "#15b5a0", unit: "人" },
         { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
-        { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" },
+        { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" }
       ],
       xq: [],
-      sumwzg: 0,
-      sumyzg: 0,
-      sumrate: 0,
-      tm:"",
+      sumwzg:0,
+      sumyzg:0,
+      sumrate:0,
       title: "",
-      impdata:0,
-      impdataf:0,
-      imprate:"0%",
       num: [
         {
           title: "复工复产备案企业",
           value: 0,
           unit: "家",
-          color: "ffbf13",
-        },
+          color: "ffbf13"
+        }
       ],
       // date: window.date,
       date: this.$route.query.date,
       time: this.$route.query.time,
-      //this.sumdaterate = this.sumdateafter/(this.sumdatehas+this.sumdateafter)
-      sumdaterate:"100",
-      sumdateafter:0,
-      sumdatehas:0,
-      sumperson:0,
       server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       logoshow: false,
@@ -333,58 +300,43 @@ export default {
           MAP_PINGYANG,
           GEO_PINGYANG,
           window.chart_Data.DATA_PINGYANG,
-          MAP_PINGYANG2,
+          MAP_PINGYANG2
         ],
         乐清市: [MAP_YUEQING, GEO_YUEQING, window.chart_Data.DATA_YUEQING],
         瑞安市: [
           MAP_RUIAN,
           GEO_RUIAN,
           window.chart_Data.DATA_RUIAN,
-          MAP_RUIAN2,
+          MAP_RUIAN2
         ],
         龙港市: [MAP_LONGGANG, GEO_LONGGANG, window.chart_Data.DATA_LONGGANG],
-        经开区: [MAP_ZHENAN, GEO_ZHENAN, window.chart_Data.DATA_ZHENAN],
+        浙南: [MAP_ZHENAN, GEO_ZHENAN, window.chart_Data.DATA_ZHENAN],
         瓯江口: [
           MAP_OUJIANGKOU,
           GEO_OUJIANGKOU,
-          window.chart_Data.DATA_OUJIANGKOU,
-        ],
+          window.chart_Data.DATA_OUJIANGKOU
+        ]
       },
-
-      dtarrya:[0,0],
-      dtarryb:[0,0],
-      dtarryc:[0,0],
-      dtarryd:[0,0],
-      dtarrye:[0,0],
-      dtarryf:[0,0],
-      dtarryg:[0,0],
-      dtarryh:[0,0],
-
-
       cur_map: null,
       cur_geo: null,
       cur_data: null,
-      infoactive:false,
       objData: {},
       all: {
         瓯江口: { name: "瓯江口", value: 0 },
         // 龙港镇: { name: "龙港镇", value: 0 }
-      },
-      jkList: {},
-      zjkList: {},
+      }
     };
   },
   computed: {
     ...mapState({
-      FgfcList: (state) => state.FgfcList,
-    }),
+      FgfcList: state => state.FgfcList
+    })
   },
   mounted() {
-    const that = this;
-    this.title = this.$route.query.label.replace(/产业集聚区/g, "");
+    this.title = this.$route.query.label;
+
+    console.log(this.title);
     const [map, geo] = this.mapHash[this.$route.query.label]; //传值
-    var jk;
-    const objData = {};
     this.cur_map = map;
     this.cur_geo = geo;
     this.XQMapInit();
@@ -392,199 +344,46 @@ export default {
       this.fgfcDataFix();
       $("#mapDiv").scrollLeft(document.body.clientWidth / 12);
     });
-    var params = new URLSearchParams();
-    params.append("params", "");
-    params.append("code", "100023037");
-    params.append("systype", 1);
-    // params.append('data', JSON.stringify(this.rank));
-    axios
-      .get(
-        "https://sourcephone.wzcitybrain.com:8081/Interface/statistics/ProxyGetCityBraainData?params=&code=100023037&systype=1"
-      )
-      .then((res) => {
-        that.jkList = JSON.parse(res.data.result);
-        const jkxq = this.jkList.data.filter(
-          ({ area_name }) => area_name.replace(/产业集聚区/g, "") == this.title
-        );
-        this.tm = this.strtime(jkxq[0].data_point)
-        jkxq.map((item) => {
-          const xjjd = item.town_name;
-          console.log(item.after_rectification_number_type_A)
-          this.dtarrya[0] +=parseInt(item.has_rectification_number_type_A);
-          this.dtarryb[0] +=parseInt(item.has_rectification_number_type_B);
-          this.dtarryc[0] +=parseInt(item.has_rectification_number_type_C);
-          this.dtarryd[0] +=parseInt(item.has_rectification_number_type_D);
-          this.dtarrye[0] +=parseInt(item.has_rectification_number_type_E);
-          this.dtarryf[0] +=parseInt(item.has_rectification_number_type_F);
-          this.dtarryg[0] +=parseInt(item.has_rectification_number_type_G);
-          this.dtarryh[0] +=parseInt(item.has_rectification_number_type_H);
-
-          this.dtarrya[1] +=parseInt(item.after_rectification_number_type_A);
-          this.dtarryb[1] +=parseInt(item.after_rectification_number_type_B);
-          this.dtarryc[1] +=parseInt(item.after_rectification_number_type_C);
-          this.dtarryd[1] +=parseInt(item.after_rectification_number_type_D);
-          this.dtarrye[1] +=parseInt(item.after_rectification_number_type_E);
-          this.dtarryf[1] +=parseInt(item.after_rectification_number_type_F);
-          this.dtarryg[1] +=parseInt(item.after_rectification_number_type_G);
-          this.dtarryh[1] +=parseInt(item.after_rectification_number_type_H);
-          
-          
-          this.sumdateafter +=parseInt(item.after_rectification_number);
-          this.sumdatehas +=parseInt(item.has_rectification_number);
-          !objData[xjjd] &&
-            (objData[xjjd] = {
-              after: {
-                sum: parseInt(item.after_rectification_number),
-                A: parseInt(item.after_rectification_number_type_A),
-                B: parseInt(item.after_rectification_number_type_B),
-                C: parseInt(item.after_rectification_number_type_C),
-                D: parseInt(item.after_rectification_number_type_D),
-                E: parseInt(item.after_rectification_number_type_E),
-                F: parseInt(item.after_rectification_number_type_F),
-                G: parseInt(item.after_rectification_number_type_G),
-                H: parseInt(item.after_rectification_number_type_H),
-              },
-              has: {
-                sum: parseInt(item.has_rectification_number),
-                A: parseInt(item.has_rectification_number_type_A),
-                B: parseInt(item.has_rectification_number_type_B),
-                C: parseInt(item.has_rectification_number_type_C),
-                D: parseInt(item.has_rectification_number_type_D),
-                E: parseInt(item.has_rectification_number_type_E),
-                F: parseInt(item.has_rectification_number_type_F),
-                G: parseInt(item.has_rectification_number_type_G),
-                H: parseInt(item.has_rectification_number_type_H),
-              },
-              rate: {
-                sum: (parseInt(item.after_rectification_number)+parseInt(item.has_rectification_number))<=0?"100%":(parseInt(item.has_rectification_number)/(parseInt(item.after_rectification_number)+parseInt(item.has_rectification_number))*100).toFixed(1)+"%",
-                A: (parseInt(item.after_rectification_number_type_A)+parseInt(item.has_rectification_number_type_A))<=0?"100%":(parseInt(item.has_rectification_number_type_A)/(parseInt(item.after_rectification_number_type_A)+parseInt(item.has_rectification_number_type_A))*100).toFixed(1)+"%",
-                B: (parseInt(item.after_rectification_number_type_B)+parseInt(item.has_rectification_number_type_B))<=0?"100%":(parseInt(item.has_rectification_number_type_B)/(parseInt(item.after_rectification_number_type_B)+parseInt(item.has_rectification_number_type_B))*100).toFixed(1)+"%",
-                C: (parseInt(item.after_rectification_number_type_C)+parseInt(item.has_rectification_number_type_C))<=0?"100%":(parseInt(item.has_rectification_number_type_C)/(parseInt(item.after_rectification_number_type_C)+parseInt(item.has_rectification_number_type_C))*100).toFixed(1)+"%",
-                D: (parseInt(item.after_rectification_number_type_D)+parseInt(item.has_rectification_number_type_D))<=0?"100%":(parseInt(item.has_rectification_number_type_D)/(parseInt(item.after_rectification_number_type_D)+parseInt(item.has_rectification_number_type_D))*100).toFixed(1)+"%",
-                E: (parseInt(item.after_rectification_number_type_E)+parseInt(item.has_rectification_number_type_E))<=0?"100%":(parseInt(item.has_rectification_number_type_E)/(parseInt(item.after_rectification_number_type_E)+parseInt(item.has_rectification_number_type_E))*100).toFixed(1)+"%",
-                F: (parseInt(item.after_rectification_number_type_F)+parseInt(item.has_rectification_number_type_F))<=0?"100%":(parseInt(item.has_rectification_number_type_F)/(parseInt(item.after_rectification_number_type_F)+parseInt(item.has_rectification_number_type_F))*100).toFixed(1)+"%",
-                G: (parseInt(item.after_rectification_number_type_G)+parseInt(item.has_rectification_number_type_G))<=0?"100%":(parseInt(item.has_rectification_number_type_G)/(parseInt(item.after_rectification_number_type_G)+parseInt(item.has_rectification_number_type_G))*100).toFixed(1)+"%",
-                H: (parseInt(item.after_rectification_number_type_H)+parseInt(item.has_rectification_number_type_H))<=0?"100%":A(parseInt(item.has_rectification_number_type_H)/(parseInt(item.after_rectification_number_type_H)+parseInt(item.has_rectification_number_type_H))*100).toFixed(1)+"%",
-              },
-            });
-
-            this.sumdaterate = parseInt(this.sumdatehas+this.sumdateafter)<=0?"100":parseInt((this.sumdatehas/(this.sumdatehas+this.sumdateafter))*100);
-            this.sumperson =parseInt(this.sumdatehas)+parseInt(this.sumdateafter);
-        });
-        that.objData = objData;
-        // that.objData = that.objData.sort(function(item,item2){
-        //   return (Number(item.rate.sum) - Number(item.rate.sum));
-        // })
-        
-        that.infoactive=true;
-      });
-      this.getimpinfo();
   },
   methods: {
-
-    filtnum(value){
-      if(value=="100.0%")
-      {
-        return "100%";
-      }
-      else if(value=="0.0%")
-      {
-        return "0%";
-      }
-      else
-      {
-        return value;
-      }
-
-    },
-    getimpinfo()
-    {
-      const that = this;
-      //const axios = getDefaultAxios();
-     axios
-      .get(
-        "https://sourcephone.wzcitybrain.com:8081/Interface/statistics/ProxyGetCityBraainData?params=&code=100023038&systype=1"
-      )
-      .then((res) => {
-         
-        that.jkList = JSON.parse(res.data.result).data;
-        var sumyzg = 0;
-        var sumwzg=0;
-
-        // var rs = that.jkList.filter((item)=>{
-        //   return item.area_name = this.title
-        // })
-        that.jkList.forEach((element)=>{
-          if(element.area_name==this.title)
-          {
-            sumyzg+=parseInt(element.has_rectification_number);
-            sumwzg+=parseInt(element.after_rectification_number);
-          }
-        })
-
-        that.impdata = sumwzg;
-        that.impdataf = sumyzg;
-        that.imprate = sumwzg<=0?"0%":parseInt((sumyzg/sumwzg)*100)+"%";
-
-        console.log("已整改：",sumyzg,"未整改",sumwzg)
-
-      });
-      //this.impinfo = axios.get("")
-    },
-    strtime(value){
-      var dt = new Date(value);
-      var month = dt.getMonth()<9?"0"+(dt.getMonth()+1):dt.getMonth()+1;
-      var day = dt.getDate()<10?"0"+dt.getDate():dt.getDate();
-      var hour = dt.getHours()<10?"0"+dt.getHours():dt.getHours();
-      var minute = dt.getMinutes()<10?"0"+dt.getMinutes():dt.getMinutes();
-      return month+"月"+day+"日"+hour+"时"+minute+"分"
-    },
     fgfcDataFix() {
       const _xq_ = this.$route.query.label.replace(/产业集聚区/g, "");
       const mapData = {};
-      const mapyzg = {};
-      const mapwzg = {};
+      const mapyzg={};
+      const mapwzg={};
       const objData = {};
-      let wzg = 0;
-      let yzg = 0;
-      let impwzg = 0;
-      let impyzg = 0;
+      let wzg=0;
+      let yzg=0;
+      let impwzg=0;
+      let impyzg=0;
       let num = 0;
       const tabdata = [
         { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
         { label: "温州籍返工", value: 0, color: "#15b5a0", unit: "人" },
         { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
-        { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" },
+        { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" }
       ];
-      console.log(this.FgfcList);
       const xq = this.FgfcList.filter(
-        ({ area_name }) => area_name.replace(/产业集聚区/g, "") == _xq_
+        ({ area1 }) => area1.replace(/产业集聚区/g, "") == _xq_
       );
-
-      // console.log(jkxq)
       const all = {
         瓯江口: { name: "瓯江口", value: 0 },
         // 龙港镇: { name: "龙港镇", value: 0 }
       };
-      xq.map((item) => {
+      xq.map(item => {
         //  头部
         num += parseInt(item.ysq_qy_cnt);
-        wzg += parseInt(item.rectification_completion_rate);
+        wzg += parseInt(item.Sumwzg);
         yzg += parseInt(item.Sumyzg);
         //  地图
-        const xjjd = item.town_name;
+        const xjjd = item.area2;
         !mapData[xjjd] && (mapData[xjjd] = { name: xjjd, value: 0 });
         !mapyzg[xjjd] && (mapyzg[xjjd] = { name: xjjd, value: 0 });
         !mapwzg[xjjd] && (mapwzg[xjjd] = { name: xjjd, value: 0 });
 
-        mapyzg[xjjd].value += parseInt(item.has_rectification_number);
-        mapwzg[xjjd].value += parseInt(item.after_rectification_number);
-        mapData[xjjd].value =(mapyzg[xjjd].value+mapwzg[xjjd].value)<=0?100:((mapyzg[xjjd].value/(mapwzg[xjjd].value+mapyzg[xjjd].value))*100).toFixed(1);  //item.rectification_completion_rate;
-        console.log("list",mapData[xjjd].value)
-        
-        //mapwzg[xjjd].value <= 0
-            // ? 0
-            // : parseInt((mapyzg[xjjd].value / mapwzg[xjjd].value) * 100); //+= parseInt(item.ysq_qy_cnt);
+        mapyzg[xjjd].value += parseInt(item.Sumyzg);
+        mapwzg[xjjd].value += parseInt(item.Sumwzg);
+        mapData[xjjd].value =mapwzg[xjjd].value<=0?0:parseInt((mapyzg[xjjd].value/mapwzg[xjjd].value)*100)  //+= parseInt(item.ysq_qy_cnt);
         _xq_ == "瓯江口" && (all["瓯江口"].value += parseInt(item.ysq_qy_cnt));
         // _xq_ == "龙港市" && (all["龙港镇"].value += parseInt(item.ysq_qy_cnt));
         !objData[xjjd] &&
@@ -599,11 +398,10 @@ export default {
             // batg_gsqy_cnt: 0,
             // batg_snfgrs_cnt: 0,
             // batg_swfgrs_cnt: 0,
-            Sumyzg: 0,
-            Sumwzg: 0,
-            rate: 0,
+            Sumyzg:0,
+            Sumwzg:0,
+            rate:0,
           });
-
         for (let v in objData[xjjd]) {
           objData[xjjd][v] += parseInt(item[v]);
         }
@@ -615,17 +413,16 @@ export default {
       this.xq = xq;
       this.sumwzg = wzg;
       this.sumyzg = yzg;
-      this.sumrate =
-        this.sumwzg <= 0 ? 0 : parseInt((this.sumyzg / this.sumwzg) * 100);
+      this.sumrate = this.sumwzg<=0?0:parseInt((this.sumyzg/this.sumwzg)*100)
       this.cur_data = mapData;
-      this.cur_yzg = mapyzg;
-      this.cur_wzg = mapwzg;
+      this.cur_yzg=mapyzg;
+      this.cur_wzg =  mapwzg;
       this.all = all;
       this.num[0].value = num;
-      this.tabdata = tabdata.map((item) => {
+      this.tabdata = tabdata.map(item => {
         return { ...item, value: item.value };
       });
-      // this.objData = objData;
+      this.objData = objData;
       //  地图初始化
       this.XQMap();
       if (this.title == "瑞安市" || this.title == "平阳县") {
@@ -646,20 +443,20 @@ export default {
       this.chart.setOption({
         tooltip: {
           //提示框组件。
-          formatter: function (param) {
-            console.log("123", that.objData);
+          formatter: function(param) {
+            console.log("11",that.objData)
             const _obj_ = that.objData[param.name] || {};
             return [
               param.name,
-              "已整改: " + (_obj_.has.sum || 0) + "人",
-              "待整改: " + (_obj_.after.sum || 0) + "人",
-              "整改率: " + _obj_.rate.sum=="100.0%"?"100%":_obj_.rate.sum//((_obj_.rate.sum==0||_obj_.rate.sum>=1)?"100%":(_obj_.rate.sum*100).toFixed(1)+"%"),
+              "待整改: " + (_obj_.Sumwzg || 0) + "人",
+              "已整改: " + (_obj_.Sumyzg || 0) + "人",
+              "整改率: " + (_obj_.rate*100 || 0) + "%",
             ].join("\n");
           },
           extraCssText: "white-space:pre-wrap;text-align:left;",
           textStyle: {
-            fontSize: "14",
-          },
+            fontSize: "14"
+          }
         },
         geo: {
           map: "wenzhou",
@@ -693,12 +490,12 @@ export default {
           left: this.title == "苍南县" ? "20%" : "center",
           label: {
             normal: {
-              show: false,
+              show: false
             },
             emphasis: {
-              show: false,
-            },
-          },
+              show: false
+            }
+          }
         },
         // visualMap: {
         //   show: false,
@@ -742,22 +539,22 @@ export default {
             left: this.title == "苍南县" ? "20%" : "center",
             emphasis: {
               label: {
-                show: true,
-              },
+                show: true
+              }
             },
             label: {
               normal: {
                 show: false,
                 textStyle: {
-                  color: "#fff",
-                },
+                  color: "#fff"
+                }
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff",
-                },
-              },
+                  color: "#fff"
+                }
+              }
             },
             itemStyle: {
               areaColor:
@@ -766,32 +563,32 @@ export default {
                 this.title == "浙南" ||
                 this.title == "龙湾区"
                   ? "#fff2d2"
-                  : null,
+                  : null
             },
             // textFixed: {
             //   Alaska: [200, 0]
             // },
-            data: Object.keys(this.cur_geo).map((item) => {
+            data: Object.keys(this.cur_geo).map(item => {
               const that = this;
-              var rate = this.cur_data[item] ? this.cur_data[item].value: 0;
-            
+              var rate = this.cur_data[item] ? this.cur_data[item].value : 0;
+              console.log(item);
+              //console.log(this.cur_data);
               return {
                 name: item,
                 value: this.cur_data[item] ? this.cur_data[item].value : 0,
                 coord: this.cur_geo[item],
                 itemStyle: {
                   color:
-                    !rate?"#b0b0b0"
-                      :rate < 80
-                      ? "#f82727" //"#689c20"
-                      : rate <90
-                      ? "#ff912f"
-                      : rate < 95
-                      ? "#64f855"
-                      : "#30a5f0",
-                },
+                    rate>= 80
+                      ? '#31A5F2'//"#689c20"
+                      : rate>=50
+                      ? "#63F856"
+                      : rate>=20
+                      ? "#ff912f"
+                      : "#f82727"
+                }
               };
-            }),
+            })
           },
           {
             name: "",
@@ -807,9 +604,9 @@ export default {
                   fontSize: 10,
                   fontWeight: "bolder",
                   textBorderColor: "#fff",
-                  textBorderWidth: 1,
+                  textBorderWidth: 1
                 },
-                formatter: (params) => {
+                formatter: params => {
                   // let _data = this.cur_data;
                   // ~["龙港市", "瓯江口"].indexOf(this.title) &&
                   //   (_data = this.all);
@@ -818,20 +615,20 @@ export default {
                   // }家`;
                   return params.name;
                 },
-                position: "bottom",
-              },
+                position: "bottom"
+              }
             },
             itemStyle: {
-              opacity: 1,
+              opacity: 1
             },
-            data: Object.keys(this.cur_geo).map((item) => {
+            data: Object.keys(this.cur_geo).map(item => {
               return {
                 name: item,
-                value: this.cur_geo[item].concat(this.cur_data[item] || 0),
+                value: this.cur_geo[item].concat(this.cur_data[item] || 0)
               };
-            }),
-          },
-        ],
+            })
+          }
+        ]
       });
     },
     XQMapInit2() {
@@ -843,19 +640,20 @@ export default {
       this.chart2.setOption({
         tooltip: {
           //提示框组件。
-          formatter: function (param) {
+          formatter: function(param) {
+            console.log("22",that.objData)
             const _obj_ = that.objData[param.name] || {};
             return [
               param.name,
-              "已整改: " + (_obj_.ysq_gsqy_cnt || 0) + "人",
               "待整改: " + (_obj_.ysq_qy_cnt || 0) + "人",
+              "已整改: " + (_obj_.ysq_gsqy_cnt || 0) + "人",
               "整改率: " + (_obj_.ysq_tzyygc_cnt || 0) + "%",
             ].join("\n");
           },
           extraCssText: "white-space:pre-wrap;text-align:left;",
           textStyle: {
-            fontSize: "14",
-          },
+            fontSize: "14"
+          }
         },
         geo: {
           map: "wenzhou2",
@@ -885,12 +683,12 @@ export default {
           right: "right",
           label: {
             normal: {
-              show: false,
+              show: false
             },
             emphasis: {
-              show: false,
-            },
-          },
+              show: false
+            }
+          }
         },
         series: [
           {
@@ -922,22 +720,22 @@ export default {
             right: "right",
             emphasis: {
               label: {
-                show: true,
-              },
+                show: true
+              }
             },
             label: {
               normal: {
                 show: false,
                 textStyle: {
-                  color: "#fff",
-                },
+                  color: "#fff"
+                }
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  color: "#fff",
-                },
-              },
+                  color: "#fff"
+                }
+              }
             },
             itemStyle: {
               areaColor:
@@ -946,18 +744,18 @@ export default {
                 this.title == "浙南" ||
                 this.title == "龙湾区"
                   ? "#fff2d2"
-                  : null,
+                  : null
             },
-            data: Object.keys(this.cur_geo).map((item) => {
+            data: Object.keys(this.cur_geo).map(item => {
               return {
                 name: item,
                 value: this.cur_data[item] ? this.cur_data[item].value : 0,
                 coord: this.cur_geo[item],
                 itemStyle: {
-                  color: "#fff2d2",
-                },
+                  color: "#fff2d2"
+                }
               };
-            }),
+            })
           },
           {
             name: "",
@@ -973,39 +771,39 @@ export default {
                   fontSize: 10,
                   fontWeight: "bolder",
                   textBorderColor: "#fff",
-                  textBorderWidth: 1,
+                  textBorderWidth: 1
                 },
-                formatter: (params) => {
+                formatter: params => {
                   return `${this.$util.nameFixed(params.name)}${
                     this.cur_data[params.name]
                       ? this.cur_data[params.name].value
                       : 0
                   }家`;
                 },
-                position: "bottom",
-              },
+                position: "bottom"
+              }
             },
             itemStyle: {
-              opacity: 1,
+              opacity: 1
             },
-            data: Object.keys(this.cur_geo).map((item) => {
+            data: Object.keys(this.cur_geo).map(item => {
               return {
                 name: item,
-                value: this.cur_geo[item].concat(this.cur_data[item] || 0),
+                value: this.cur_geo[item].concat(this.cur_data[item] || 0)
               };
-            }),
-          },
-        ],
+            })
+          }
+        ]
       });
     },
     showLogo() {
       this.logoshow = true;
       const that = this;
-      setTimeout(function () {
+      setTimeout(function() {
         that.logoshow = false;
       }, 3000);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -1018,28 +816,12 @@ export default {
   line-height: @height;
   text-align: center;
 }
-.infospan{
-  width:100%;
-  //margin:10px auto;
-  //background:url(../img/bbg.png) center center no-repeat;
-  //background-size:100% 100%;
-      background-image: -webkit-gradient(linear, left top, right top, from(#15005b), color-stop(#4855d6), to(#15005b));
-    background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
-  height:30px;
-  font-size:14px;
-  line-height:35px;
-  color:#fff;
-  position: fixed;
-  right:0px;
-  bottom:0px;
-  z-index:10;
-}
-.tbox {
-  width: 80%;
-  margin: 0 auto;
-  //background: url(../img/tablebox2.png) center center no-repeat;
-  background-size: 100% 100%;
-  padding: 10px 15px;
+.tbox{
+  width:80%;
+  margin:0 auto;
+    background:url(../img/tablebox2.png) center center no-repeat;
+    background-size:100% 100%;
+    padding:10px 15px;
 }
 .sfDetails {
   background-image: url("../img/bg.jpg");
@@ -1048,101 +830,104 @@ export default {
   overflow-y: auto;
 
   #tbbox::-webkit-scrollbar {
-    width: 5px; /*对垂直流动条有效*/
-    height: 5px; /*对水平流动条有效*/
+      width: 5px; /*对垂直流动条有效*/
+      height: 5px; /*对水平流动条有效*/
   }
 
   /*定义滚动条的轨道颜色、内阴影及圆角*/
-  #tbbox::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #021739;
+  #tbbox::-webkit-scrollbar-track{
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #021739;
   }
+
 
   /*定义滑块颜色、内阴影及圆角*/
-  #tbbox::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #10b9cc;
+  #tbbox::-webkit-scrollbar-thumb{
+
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #10b9cc;
   }
 
-  .bl_info_line {
-    width: 100%;
+
+  .bl_info_line{
+    width:100%;
     box-sizing: border-box;
-    padding: 0 30px;
+    padding:0 30px;
 
-    .info_item {
-      width: 25%;
+    .info_item{
+      width:25%;
       box-sizing: border-box;
-      float: left;
-
-      .itname {
+      float:left;
+      
+      .itname{
         display: block;
         font-size: 14px;
-        color: #fff;
-        line-height: 25px;
-        text-align: left;
+        color:#fff;
+        line-height:25px;
+        text-align:left;
         font-weight: bold;
       }
 
-      .itemvalue {
-        display: block;
-        text-align: left;
+      .itemvalue{
+         display: block;
+         text-align:left;
 
-        .itval1 {
-          font-size: 14px;
-          color: #008aff;
-          line-height: 25px;
-          font-weight: bold;
-        }
-        .itval2 {
-          font-size: 14px;
-          color: #ffbf13;
-          line-height: 25px;
-          font-weight: bold;
-        }
+         .itval1{
+           font-size:14px;
+           color:#008aff;
+           line-height:25px;
+           font-weight: bold;
+         }
+         .itval2{
+           font-size:14px;
+           color:#ffbf13;
+           line-height:25px;
+           font-weight: bold;
+         }
       }
     }
   }
-  .infoline {
-    width: 100%;
+  .infoline{
+    width:100%;
     box-sizing: border-box;
-    padding: 0 15px;
-    height: 30px;
+    padding:0 15px;
+    margin:15px 0px;
+    height:40px;
     background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
     text-align: center;
-    z-index:1;
-    .line1 {
-      font-size: 12px;
-      line-height: 30px;
-      font-weight: bold;
-      color: #fff;
+    .line1{
+      font-size:12px;
+      line-height:40px;
+      font-weight:bold;
+      color:#fff;
     }
-    .line2 {
-      font-size: 12px;
-      line-height: 30px;
-      font-weight: bold;
-      color: #ffbf13;
+    .line2{
+      font-size:12px;
+      line-height:40px;
+      font-weight:bold;
+      color:#ffbf13
     }
   }
   .head {
     display: block;
     width: 100%;
-    height: 45px;
-    background: url(../img/titlepic.png) top center no-repeat;
-    background-size: 100% auto;
+    height:45px;
+    background:url(../img/titlepic.png) top center no-repeat;
+    background-size:100% auto;
 
     p {
       text-align: center;
       font-size: 20px;
       font-weight: bold;
-      color: #fff;
-
+      color:#fff;
+      
       padding: 10px;
     }
     img {
       height: 25px;
       float: left;
-      margin-left: 15px;
-      margin-top: 10px;
+      margin-left:15px;
+      margin-top:10px;
     }
   }
   .qz {
@@ -1235,17 +1020,17 @@ body {
     top: 0;
   }
   .t1:before {
-    background-color: #f82727; //rgb(104, 156, 32);
+    background-color:#f82727; //rgb(104, 156, 32);
   }
-
+  
   .t2:before {
-    background-color: #ff912f //rgb(172, 212, 74);;
+    background-color:#ff912f //rgb(172, 212, 74);
   }
   .t3:before {
-    background-color: #63f856 //rgb(200, 226, 177);;
+    background-color:#63F856 //rgb(200, 226, 177);
   }
   .t4:before {
-    background-color: #31a5f2 //rgb(230, 241, 216);;
+    background-color:#31A5F2 //rgb(230, 241, 216);
   }
 }
 .mapDiv {
