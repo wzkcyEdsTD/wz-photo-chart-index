@@ -144,7 +144,7 @@ export default {
     }
   },
   mounted() {
-    // this.drawEchart();
+     this.drawEchart();
   }
 };
 </script>

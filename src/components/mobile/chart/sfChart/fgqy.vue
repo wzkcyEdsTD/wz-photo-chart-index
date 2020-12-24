@@ -1,6 +1,6 @@
 <template>
   <div class="fg-chart">
-    <div class="fg-chart-title">复工复产备案企业分析</div>
+    <div class="fg-chart-title">各区县完成率排名</div>
     <div class="fg-chart-content" ref="fg"></div>
   </div>
 </template>
@@ -24,6 +24,12 @@ export default {
           },
           textStyle: {
             align: "left"
+          },
+          formatter: function(a) {
+            console.log(a);
+            var html = "<div><div style='width:100%;overflow: hidden;'><span style='font-size:12px;font-weight:bold;color:#fff'>"+
+            a[0].name+"</span></br><span style='font-size:12px;font-weight:bold;color:#fff'>已整改：</span><span style='font-size:12px;font-weight:bold;color:#fff'>"+a[2].value+"</span></br><span style='font-size:12px;font-weight:bold;color:#fff'>未整改：</span><span style='font-size:12px;font-weight:bold;color:#fff'>"+a[3].value+"</span></div></div>"
+            return html
           }
         },
         grid: {
@@ -42,9 +48,7 @@ export default {
             color: "#fff"
           },
           data: [
-            { name: "投资超过一亿工程(家)" },
-            { name: "其他企业/工程(家)" },
-            { name: "规(限)上企业(家)" }
+            { name: "完成率" },
           ]
         },
         xAxis: [
@@ -76,7 +80,7 @@ export default {
               }
             },
             axisLine: {
-              show: false,
+              show: true,
               lineStyle: {
                 color: "#fff"
               }
@@ -85,9 +89,9 @@ export default {
           }
         ],
         yAxis: {
-          show: false,
+          show: true,
           type: "value",
-          name: "例",
+          name: "完成率",
           nameTextStyle: {
             fontSize: 14,
             color: "#fff"
@@ -99,7 +103,7 @@ export default {
             }
           },
           splitLine: {
-            show: false
+            show: false,
           },
           axisLine: {
             lineStyle: {
@@ -109,74 +113,79 @@ export default {
         },
         series: [
           {
-            name: "规(限)上企业(家)",
-            type: "bar",
-            stack: "one",
-             barWidth: 10,
-            label: {
-              position: "top",
-              show: false
-            },
-            itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#DAA520" },
-                { offset: 1, color: "#FFFF00" }
-              ])
-            },
-            data: this.chartData.gs
-          },
-          {
-            name: "其他企业/工程(家)",
+            name: "完成率",
             type: "bar",
             stack: "one",
              barWidth: 10,
             label: {
               position: "top",
               show: true,
-              color: "#fff",
-              formatter: ({ dataIndex }) => {
-                return this.chartData.all[dataIndex];
+              color:"#FEE000",
+              formatter: function (params) {
+                  return params.value+"%";
               }
-            },
+
+            },       
             itemStyle: {
               color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#A93FE0" },
-                { offset: 1, color: "#CF72FF" }
+                { offset: 0, color: "#40D8ED" },
+                { offset: 1, color: "#0D8F77" }
               ])
             },
-            data: this.chartData.rest
+            data:this.chartData.rate,
           },
           {
-            name: "投资超过一亿工程(家)",
-            type: "bar",
-            stack: "one",
-            barWidth: 10,
-            label: {
-              position: "top",
-              show: false
+            name: "完成率",
+            type: "line",
+            symbol: "circle",
+            symbolSize: [5, 5],
+            label:{
+              show:false
             },
             itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#DF1502" },
-                { offset: 1, color: "#F3C4B7" }
-              ])
+              color:"#FEDC00"
             },
-            data: this.chartData.yy
-          }
+            data: this.chartData.rate
+          },
+          {
+            name: "已整改",
+            type: "line",
+            symbolSize: 0, // symbol的大小设置为0
+            showSymbol: false, // 不显示symbol
+            lineStyle: {
+                width: 0, // 线宽是0
+                color: 'rgba(0, 0, 0, 0)' // 线的颜色是透明的
+            },     
+
+            data:this.chartData.Sumyzg,
+          },
+          {
+            name: "未整改",
+            type: "line",
+            symbolSize: 0, // symbol的大小设置为0
+            showSymbol: false, // 不显示symbol
+            lineStyle: {
+                width: 0, // 线宽是0
+                color: 'rgba(0, 0, 0, 0)' // 线的颜色是透明的
+            },     
+
+            data:this.chartData.Sumwzg,
+          },
         ]
       });
     }
   },
   mounted() {
-    // this.fetchFgList().then(() => {
-    // this.drawEchart();
-    // });
+    this.fetchFgList().then(() => {
+      this.drawEchart();
+    });
   }
 };
 </script>
 <style scoped>
 .fg-chart {
-  width: 100%;
+  width:100%;
+  overflow:auto;
   height: auto;
 }
 .fg-chart-title {
@@ -188,7 +197,24 @@ export default {
   font-weight: bold;
 }
 .fg-chart-content {
-  width: 100%;
-  height: 300px;
+  height: 400px;
+  width:550px;
+}
+.toolinfobox{
+  width:80px;
+  border-radius:10px;
+  background:rgba(255, 255, 255, 0.7);
+  padding:15px;
+  
+}
+.toolinfobox .toolitem{
+  height:25px;
+  width:100%;
+  overflow: hidden;
+}
+.toolinfobox .toolitem span{
+  font-weight:bold;
+  font-size:12px;
+  line-height:25px;
 }
 </style>

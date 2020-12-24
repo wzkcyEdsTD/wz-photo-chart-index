@@ -2,10 +2,26 @@
   <div class="sfDetails">
     <div class="head">
       <img src="../img/back.png" @click="back()" />
-      <p>{{$route.query.label}}复工复产分布图</p>
+      <p>{{$route.query.label}}被征地农民参保</p>
     </div>
-    <fgtop :num="num" />
-    <div id="bl-head">
+    <!-- <fgtop :num="num" /> -->
+    <div class="infoline" style="margin-bottom:5px">
+      <span class="line1">总人数</span>
+      <span class="line2">{{sumwzg}}</span>
+      <span class="line1">人；已整改</span>
+      <span class="line2">{{sumyzg}}</span>
+      <span class="line1">人；整改率</span>
+      <span class="line2"></span>
+    </div>
+    <div class="infoline" style="margin-top:0px">
+      <span class="line1">总人数</span>
+      <span class="line2">{{sumwzg}}</span>
+      <span class="line1">人；已整改</span>
+      <span class="line2">{{sumyzg}}</span>
+      <span class="line1">人；整改率</span>
+      <span class="line2"></span>
+    </div>
+    <!-- <div id="bl-head">
       <ul>
         <li v-for="(item,index) in tabdata" :key="index">
           <p>
@@ -15,10 +31,58 @@
           </p>
         </li>
       </ul>
+    </div> -->
+    <div class="tbox">
+      <table style="width:100%;font-size:12px;" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <td>类型</td>
+            <td>A</td>
+            <td>B</td>
+            <td>c</td>
+            <td>D</td>
+            <td>E</td>
+            <td>F</td>
+            <td>G</td>
+            <td>H</td>
+          </tr>
+          <tr>
+            <td>待整改</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+            <td style="color:red">0</td>
+          </tr>
+          <tr>
+            <td>已整改</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+            <td style="color:#28DEC8">0</td>
+          </tr>
+          
+        </thead>
+       
+      </table>
     </div>
     <div class="mapDiv" id="mapDiv">
       <div id="xq-map"></div>
       <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
+    </div>
+    <div class="kind">
+      <p style="padding:15px 0px;font-size:16px;">各街道完成率</p>
+      <div class="t1">完成率＜20%</div>
+      <div class="t2">20%~50%</div>
+      <div class="t3">50%~80%</div>
+      <div class="t4">＞80%</div>
     </div>
     <!-- <div class="kind">
       <p style="height: 23px;">提交复工申请企业总数</p>
@@ -31,59 +95,117 @@
     <div class="bltitle" style="width:96%;margin-left: 2%;">
       <img src="../img/blxq.png" />
       <p>
-        复工返工信息
+        整改信息
         <i style="color:#ccc;font-style:normal;">（左右可拖动查阅）</i>
       </p>
     </div>
-    <div style="width: 96%;overflow: auto;margin-left: 2%;">
-      <table style="width:500px;font-size:12px;" cellpadding="0" cellspacing="0">
+    <div id="tbbox" style="width: 96%;overflow: auto;margin-left: 2%;padding-bottom: 15px;">
+      <table style="width:1500px;font-size:12px;" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
             <td rowspan="2" style="width:60px;">
               乡镇
               <br />街道
             </td>
-            <td>
-              企业
-              <br />总数(家)
+             <td colspan="3">
+              重点人员
             </td>
-            <td>
-              规(限)
-              <br />上企业(家)
+            <td colspan="3">
+              A类
             </td>
-            <td>
-              超一亿
-              <br />项目(个)
+            <td colspan="3">
+              B类
             </td>
-            <td>
-              温州籍
-              <br />返工(人)
+            <td colspan="3">
+              C类
             </td>
-            <td>
-              非温州籍
-              <br />返工(人)
+            <td colspan="3">
+             D类
             </td>
+            <td colspan="3">
+              E类
+            </td>
+            <td colspan="3">
+              F类
+            </td>
+            <td colspan="3">
+              G类
+            </td>
+            <td colspan="3">
+              H类
+            </td>
+          </tr>
+           <tr>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
+            <td>待整改</td>
+            <td>已整改</td>
+            <td>整改率</td>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item,key,index) in objData" :key="index">
             <td>{{key}}</td>
-            <td>{{item.ysq_qy_cnt}}</td>
+            <!-- <td>{{item.ysq_qy_cnt}}</td>
             <td>{{item.ysq_gsqy_cnt}}</td>
             <td>{{item.ysq_tzyygc_cnt}}</td>
             <td>{{item.ysq_snfgrs_cnt}}</td>
-            <td>{{item.ysq_swfgrs_cnt}}</td>
-            <!-- <td>{{item.batg_qy_cnt}}</td>
-            <td>{{item.batg_gsqy_cnt}}</td>
-            <td>{{item.batg_tzyygc_cnt}}</td>
-            <td>{{item.batg_snfgrs_cnt}}</td>
-            <td>{{item.batg_swfgrs_cnt}}</td>-->
+            <td>{{item.ysq_swfgrs_cnt}}</td> -->
+            <td>{{item.Sumwzg}}</td>
+            <td>{{item.Sumyzg}}</td>
+            <td>{{item.rate}}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
           </tr>
         </tbody>
       </table>
     </div>
     <!-- 底部 -->
-    <div class="bottom">
+    <!-- <div class="bottom">
       <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
       <div class="sjlz">数据来源：三返人员信息系统</div>
       <div class="float" v-show="logoshow">
@@ -95,7 +217,7 @@
         <span class="time">{{time}}</span>时
         <img style src="../img/logo.png" @click="showLogo()" />
       </p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -146,6 +268,9 @@ export default {
         { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" }
       ],
       xq: [],
+      sumwzg:0,
+      sumyzg:0,
+      sumrate:0,
       title: "",
       num: [
         {
@@ -198,7 +323,7 @@ export default {
       objData: {},
       all: {
         瓯江口: { name: "瓯江口", value: 0 },
-        龙港镇: { name: "龙港镇", value: 0 }
+        // 龙港镇: { name: "龙港镇", value: 0 }
       }
     };
   },
@@ -209,6 +334,8 @@ export default {
   },
   mounted() {
     this.title = this.$route.query.label;
+
+    console.log(this.title);
     const [map, geo] = this.mapHash[this.$route.query.label]; //传值
     this.cur_map = map;
     this.cur_geo = geo;
@@ -222,7 +349,13 @@ export default {
     fgfcDataFix() {
       const _xq_ = this.$route.query.label.replace(/产业集聚区/g, "");
       const mapData = {};
+      const mapyzg={};
+      const mapwzg={};
       const objData = {};
+      let wzg=0;
+      let yzg=0;
+      let impwzg=0;
+      let impyzg=0;
       let num = 0;
       const tabdata = [
         { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
@@ -235,40 +368,55 @@ export default {
       );
       const all = {
         瓯江口: { name: "瓯江口", value: 0 },
-        龙港镇: { name: "龙港镇", value: 0 }
+        // 龙港镇: { name: "龙港镇", value: 0 }
       };
       xq.map(item => {
         //  头部
         num += parseInt(item.ysq_qy_cnt);
+        wzg += parseInt(item.Sumwzg);
+        yzg += parseInt(item.Sumyzg);
         //  地图
         const xjjd = item.area2;
         !mapData[xjjd] && (mapData[xjjd] = { name: xjjd, value: 0 });
-        mapData[xjjd].value += parseInt(item.ysq_qy_cnt);
+        !mapyzg[xjjd] && (mapyzg[xjjd] = { name: xjjd, value: 0 });
+        !mapwzg[xjjd] && (mapwzg[xjjd] = { name: xjjd, value: 0 });
+
+        mapyzg[xjjd].value += parseInt(item.Sumyzg);
+        mapwzg[xjjd].value += parseInt(item.Sumwzg);
+        mapData[xjjd].value =mapwzg[xjjd].value<=0?0:parseInt((mapyzg[xjjd].value/mapwzg[xjjd].value)*100)  //+= parseInt(item.ysq_qy_cnt);
         _xq_ == "瓯江口" && (all["瓯江口"].value += parseInt(item.ysq_qy_cnt));
-        _xq_ == "龙港市" && (all["龙港镇"].value += parseInt(item.ysq_qy_cnt));
+        // _xq_ == "龙港市" && (all["龙港镇"].value += parseInt(item.ysq_qy_cnt));
         !objData[xjjd] &&
           (objData[xjjd] = {
-            ysq_qy_cnt: 0,
-            ysq_tzyygc_cnt: 0,
-            ysq_gsqy_cnt: 0,
-            ysq_snfgrs_cnt: 0,
-            ysq_swfgrs_cnt: 0,
-            batg_qy_cnt: 0,
-            batg_tzyygc_cnt: 0,
-            batg_gsqy_cnt: 0,
-            batg_snfgrs_cnt: 0,
-            batg_swfgrs_cnt: 0
+            // ysq_qy_cnt: 0,
+            // ysq_tzyygc_cnt: 0,
+            // ysq_gsqy_cnt: 0,
+            // ysq_snfgrs_cnt: 0,
+            // ysq_swfgrs_cnt: 0,
+            // batg_qy_cnt: 0,
+            // batg_tzyygc_cnt: 0,
+            // batg_gsqy_cnt: 0,
+            // batg_snfgrs_cnt: 0,
+            // batg_swfgrs_cnt: 0,
+            Sumyzg:0,
+            Sumwzg:0,
+            rate:0,
           });
         for (let v in objData[xjjd]) {
           objData[xjjd][v] += parseInt(item[v]);
         }
-        tabdata[0].value += parseInt(item.ysq_gsqy_cnt);
-        tabdata[1].value += parseInt(item.ysq_snfgrs_cnt);
-        tabdata[2].value += parseInt(item.ysq_tzyygc_cnt);
-        tabdata[3].value += parseInt(item.ysq_swfgrs_cnt);
+        // tabdata[0].value += parseInt(item.ysq_gsqy_cnt);
+        // tabdata[1].value += parseInt(item.ysq_snfgrs_cnt);
+        // tabdata[2].value += parseInt(item.ysq_tzyygc_cnt);
+        // tabdata[3].value += parseInt(item.ysq_swfgrs_cnt);
       });
       this.xq = xq;
+      this.sumwzg = wzg;
+      this.sumyzg = yzg;
+      this.sumrate = this.sumwzg<=0?0:parseInt((this.sumyzg/this.sumwzg)*100)
       this.cur_data = mapData;
+      this.cur_yzg=mapyzg;
+      this.cur_wzg =  mapwzg;
       this.all = all;
       this.num[0].value = num;
       this.tabdata = tabdata.map(item => {
@@ -296,14 +444,13 @@ export default {
         tooltip: {
           //提示框组件。
           formatter: function(param) {
+            console.log("11",that.objData)
             const _obj_ = that.objData[param.name] || {};
             return [
               param.name,
-              "备案企业总数: " + (_obj_.ysq_qy_cnt || 0) + "家",
-              "规(限)上企业数: " + (_obj_.ysq_gsqy_cnt || 0) + "家",
-              "投资额1亿元工程: " + (_obj_.ysq_tzyygc_cnt || 0) + "个",
-              "温州籍返工: " + (_obj_.ysq_snfgrs_cnt || 0) + "人",
-              "非温州籍返工: " + (_obj_.ysq_swfgrs_cnt || 0) + "人"
+              "待整改: " + (_obj_.Sumwzg || 0) + "人",
+              "已整改: " + (_obj_.Sumyzg || 0) + "人",
+              "整改率: " + (_obj_.rate*100 || 0) + "%",
             ].join("\n");
           },
           extraCssText: "white-space:pre-wrap;text-align:left;",
@@ -422,12 +569,23 @@ export default {
             //   Alaska: [200, 0]
             // },
             data: Object.keys(this.cur_geo).map(item => {
+              const that = this;
+              var rate = this.cur_data[item] ? this.cur_data[item].value : 0;
+              console.log(item);
+              //console.log(this.cur_data);
               return {
                 name: item,
                 value: this.cur_data[item] ? this.cur_data[item].value : 0,
                 coord: this.cur_geo[item],
                 itemStyle: {
-                  color: "#fff2d2"
+                  color:
+                    rate>= 80
+                      ? '#31A5F2'//"#689c20"
+                      : rate>=50
+                      ? "#63F856"
+                      : rate>=20
+                      ? "#ff912f"
+                      : "#f82727"
                 }
               };
             })
@@ -449,12 +607,13 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  let _data = this.cur_data;
-                  ~["龙港市", "瓯江口"].indexOf(this.title) &&
-                    (_data = this.all);
-                  return `${this.$util.nameFixed(params.name)}${
-                    _data[params.name] ? _data[params.name].value : 0
-                  }家`;
+                  // let _data = this.cur_data;
+                  // ~["龙港市", "瓯江口"].indexOf(this.title) &&
+                  //   (_data = this.all);
+                  // return `${this.$util.nameFixed(params.name)}${
+                  //   _data[params.name] ? _data[params.name].value : 0
+                  // }家`;
+                  return params.name;
                 },
                 position: "bottom"
               }
@@ -482,14 +641,13 @@ export default {
         tooltip: {
           //提示框组件。
           formatter: function(param) {
+            console.log("22",that.objData)
             const _obj_ = that.objData[param.name] || {};
             return [
               param.name,
-              "备案企业总数: " + (_obj_.ysq_qy_cnt || 0) + "家",
-              "规(限)企业数: " + (_obj_.ysq_tzyygc_cnt || 0) + "家",
-              "投资额1亿元工程: " + (_obj_.ysq_gsqy_cnt || 0) + "个",
-              "温州籍返工: " + (_obj_.ysq_snfgrs_cnt || 0) + "人",
-              "非温州籍返工: " + (_obj_.ysq_swfgrs_cnt || 0) + "人"
+              "待整改: " + (_obj_.ysq_qy_cnt || 0) + "人",
+              "已整改: " + (_obj_.ysq_gsqy_cnt || 0) + "人",
+              "整改率: " + (_obj_.ysq_tzyygc_cnt || 0) + "%",
             ].join("\n");
           },
           extraCssText: "white-space:pre-wrap;text-align:left;",
@@ -658,34 +816,118 @@ export default {
   line-height: @height;
   text-align: center;
 }
+.tbox{
+  width:80%;
+  margin:0 auto;
+    background:url(../img/tablebox2.png) center center no-repeat;
+    background-size:100% 100%;
+    padding:10px 15px;
+}
 .sfDetails {
   background-image: url("../img/bg.jpg");
   width: 100%;
   height: 100%;
   overflow-y: auto;
+
+  #tbbox::-webkit-scrollbar {
+      width: 5px; /*对垂直流动条有效*/
+      height: 5px; /*对水平流动条有效*/
+  }
+
+  /*定义滚动条的轨道颜色、内阴影及圆角*/
+  #tbbox::-webkit-scrollbar-track{
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #021739;
+  }
+
+
+  /*定义滑块颜色、内阴影及圆角*/
+  #tbbox::-webkit-scrollbar-thumb{
+
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #10b9cc;
+  }
+
+
+  .bl_info_line{
+    width:100%;
+    box-sizing: border-box;
+    padding:0 30px;
+
+    .info_item{
+      width:25%;
+      box-sizing: border-box;
+      float:left;
+      
+      .itname{
+        display: block;
+        font-size: 14px;
+        color:#fff;
+        line-height:25px;
+        text-align:left;
+        font-weight: bold;
+      }
+
+      .itemvalue{
+         display: block;
+         text-align:left;
+
+         .itval1{
+           font-size:14px;
+           color:#008aff;
+           line-height:25px;
+           font-weight: bold;
+         }
+         .itval2{
+           font-size:14px;
+           color:#ffbf13;
+           line-height:25px;
+           font-weight: bold;
+         }
+      }
+    }
+  }
+  .infoline{
+    width:100%;
+    box-sizing: border-box;
+    padding:0 15px;
+    margin:15px 0px;
+    height:40px;
+    background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
+    text-align: center;
+    .line1{
+      font-size:12px;
+      line-height:40px;
+      font-weight:bold;
+      color:#fff;
+    }
+    .line2{
+      font-size:12px;
+      line-height:40px;
+      font-weight:bold;
+      color:#ffbf13
+    }
+  }
   .head {
     display: block;
     width: 100%;
+    height:45px;
+    background:url(../img/titlepic.png) top center no-repeat;
+    background-size:100% auto;
+
     p {
       text-align: center;
       font-size: 20px;
-      font-weight: bolder;
-      background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#5ef2f5),
-        to(#0b3cca)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      padding: 15px;
+      font-weight: bold;
+      color:#fff;
+      
+      padding: 10px;
     }
     img {
-      width: 45px;
       height: 25px;
       float: left;
-      padding-top: 15px;
+      margin-left:15px;
+      margin-top:10px;
     }
   }
   .qz {
@@ -778,16 +1020,17 @@ body {
     top: 0;
   }
   .t1:before {
-    background-color: rgb(247, 39, 38);
+    background-color:#f82727; //rgb(104, 156, 32);
   }
+  
   .t2:before {
-    background-color: rgb(255, 145, 47);
+    background-color:#ff912f //rgb(172, 212, 74);
   }
   .t3:before {
-    background-color: rgb(255, 242, 172);
+    background-color:#63F856 //rgb(200, 226, 177);
   }
   .t4:before {
-    background-color: rgb(255, 255, 255);
+    background-color:#31A5F2 //rgb(230, 241, 216);
   }
 }
 .mapDiv {

@@ -759,7 +759,7 @@ export default {
                 ]
             ]
         }
-    }, , {
+    }, {
         "type": "Feature",
         "properties": {
             "adcode": 330305,

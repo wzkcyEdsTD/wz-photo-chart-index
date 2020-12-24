@@ -3,21 +3,23 @@
     <!-- <div class="title">
       <span>温州市新冠肺炎防控作战地图</span>
     </div>-->
-    <header class="app_header">
-      <ul class="app_toptab">
-        <li
-          v-for="(item,index) in toptab"
-          :key="index"
-          :class="{top_active:index==current,top_force:item.force}"
-          @click="goPage(index)"
-        >
-          <span>
-            <img :src="item.icon" />
-            <!-- <i>{{item.label}}</i> -->
-          </span>
-        </li>
-      </ul>
-    </header>
+    <header class="app_header">温州市被征地农民参保</header>
+    <div class="infoline">
+      <span class="line1">总人数</span>
+      <span class="line2">163</span>
+      <span class="line1">人；已整改</span>
+      <span class="line2">134</span>
+      <span class="line1">人；整改率</span>
+      <span class="line2">82%</span>
+    </div>
+    <div class="infoline" style="top:95px">
+      <span class="line1">重点人员</span>
+      <span class="line2">163</span>
+      <span class="line1">人；已整改</span>
+      <span class="line2">134</span>
+      <span class="line1">人；整改率</span>
+      <span class="line2">82%</span>
+    </div>
     <div class="qz" v-if="current == 2">
       <div class="qz_num">
         <ul>
@@ -55,7 +57,7 @@
       v-if="current != 2 && current != 3"
     >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>-->
 
-    <div class="sjlz" v-if="current == 2 || current == 3 ">数据来源：温州市新冠肺炎工作领导小组</div>
+    <!-- <div class="sjlz" v-if="current == 2 || current == 3 ">数据来源：温州市新冠肺炎工作领导小组</div> -->
     <div class="bottom" v-if="current == 2 || current == 3 ">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
@@ -69,11 +71,11 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-    <fg v-if="current == 0" />
-    <sf v-if="current == 1" />
+    <fg/>
+    <!-- <sf v-if="current == 1" />
     <fk v-if="current == 2" ref="fk" />
     <bl v-if="current == 3" ref="bl" />
-    <tb v-if="current == 4" />
+    <tb v-if="current == 4" /> -->
     <!-- <fx v-if="current == 4" /> -->
   </div>
 </template>
@@ -149,14 +151,14 @@ export default {
   },
   async mounted() {
     this.date = this.$date();
-    !this.blList.length && this.fetchBlList();
-    !this.flagList.length && this.fetchFlagList();
-    !this.QfList.length && this.fetchQfList();
-    !this.blxxList.length && this.fetchBlxxList();
+    // !this.blList.length && this.fetchBlList();
+    // !this.flagList.length && this.fetchFlagList();
+    // !this.QfList.length && this.fetchQfList();
+    // !this.blxxList.length && this.fetchBlxxList();
     //  压力太大注销掉
-    await this.fetchReliXYList();
-    await this.fetchQushiData();
-    await this.fetchZyRateData();
+    // await this.fetchReliXYList();
+    // await this.fetchQushiData();
+    // await this.fetchZyRateData();
   },
   computed: {
     ...mapState({
@@ -175,16 +177,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      "fetchBlList",
-      "fetchFlagList",
-      "fetchQfList",
-      "fetchBlxxList",
-      //  压力太大注销掉
-      "fetchReliXYList",
-      "fetchQushiData",
-      "fetchZyRateData"
-    ]),
+    // ...mapActions([
+    //   "fetchBlList",
+    //   "fetchFlagList",
+    //   "fetchQfList",
+    //   "fetchBlxxList",
+    //   //  压力太大注销掉
+    //   "fetchReliXYList",
+    //   "fetchQushiData",
+    //   "fetchZyRateData"
+    // ]),
     fixFlagData() {
       const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
       this.flagList.map(item => {
@@ -315,6 +317,30 @@ export default {
   background-image: url("./img/bg.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+
+    .infoline{
+      position: absolute;
+      width:100%;
+      box-sizing: border-box;
+      padding:0 15px;
+      height:40px;
+      background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
+      text-align: center;
+      top:50px;
+      right:0px;
+    .line1{
+      font-size:12px;
+      line-height:40px;
+      font-weight:bold;
+      color:#fff;
+    }
+    .line2{
+      font-size:12px;
+      line-height:40px;
+      font-weight:bold;
+      color:#ffbf13
+    }
+  }
   .isGk {
     position: absolute;
     top: 43%;
@@ -370,11 +396,17 @@ export default {
   }
   .app_header {
     position: fixed;
-    top: 15px;
-    height: @MaxHeight;
+    height: 45px;//@MaxHeight;
     padding: 4px;
-    background: rgba(0, 0, 0, 0);
+    background:url(./img/titlepic.png) top center no-repeat;
+    background-size:100% auto;
     box-sizing: border-box;
+    font-size:20px;
+    line-height:45px;
+    font-weight:bold;
+    color:#fff;
+    text-align: center;
+    
     > .app_toptab {
       .toFather();
       > li {
