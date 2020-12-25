@@ -19,7 +19,7 @@
     <div class="app_container">
       <transition :name="transitionName">
         <keep-alive include="Mobile">
-          <router-view  v-if="isRouter"></router-view>
+          <router-view ></router-view>
         </keep-alive>
       </transition>
     </div>
@@ -68,7 +68,7 @@ export default {
        var userName =Base64.decode(this.$route.query.userName);
        Watermark.set(userName)
     }
-    this.isRouter = true;
+
     //console.log("名儿字",this.$route.query.userName); 
   }
 };
