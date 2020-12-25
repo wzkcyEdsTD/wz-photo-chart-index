@@ -194,6 +194,7 @@ export default {
     //   "fetchQushiData",
     //   "fetchZyRateData"
     // ]),
+
     fixFlagData() {
       const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
       this.flagList.map(item => {

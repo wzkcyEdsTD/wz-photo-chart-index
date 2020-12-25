@@ -12,6 +12,7 @@ import MobileGK from "./components/mobile/gk.vue"
 import BlImg from "./components/mobile/blImg.vue"
 import sfDetail from "./components/mobile/chart/sfDetails.vue"
 import fgDetail from "./components/mobile/chart/fgDetails.vue"
+import error from "./components/mobile/error.vue"
 
 Vue.use(Router);
 
@@ -55,6 +56,11 @@ export default new Router({
         path: "/monitor",
         name: "monitor",
         component: Monitor
+      },
+      {
+        path: "/error",
+        name: "error",
+        component: error
       },
     ]
 });

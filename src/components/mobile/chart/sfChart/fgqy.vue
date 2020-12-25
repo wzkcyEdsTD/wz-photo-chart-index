@@ -161,11 +161,11 @@ export default {
             itemStyle: {
               normal: {
                 color: function (param) {
-                  return param.value < 80
+                  return param.value < 95
                     ? "#f82727"
-                    : param.value < 90
+                    : param.value < 99
                     ? "#ff912f"
-                    : param.value < 95
+                    : param.value < 100
                     ? "#64f855"
                     : "#30a5f0";
                 },

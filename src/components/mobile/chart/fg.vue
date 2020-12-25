@@ -75,10 +75,10 @@
     
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
-      <div class="t1">整改率＜80%</div>
-      <div class="t2">80%~90%</div>
-      <div class="t3">90%~95%</div>
-      <div class="t4">＞95%</div>
+      <div class="t1">整改率＜95%</div>
+      <div class="t2">95%~99%</div>
+      <div class="t3">99%~100%</div>
+      <div class="t4">整改率=100%</div>
     </div>
     <div class="infospan">数据截止：{{tm}}</div>
     <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" />
@@ -178,7 +178,17 @@ export default {
   methods: {
     ...mapActions(["fetchFgfcList"]),
     
-
+    strnum(value){
+      if(value=="0.00%"){
+        return "0%";
+      }
+      else if(value=="100.00%")
+      {
+        return "100%";
+      }else{
+        return value;
+      }
+    },
     getimpinfo()
     {
       const that = this;
@@ -395,7 +405,7 @@ export default {
       var sumdataf = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
       this.$parent.alldata =sumdata; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
       this.$parent.alldataf =sumdataf; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
-      this.$parent.allrate = sumdata<=0?"0%":parseInt((sumdataf/sumdata)*100)+"%";
+      this.$parent.allrate = this.strnum(sumdata<=0?"0%":((sumdataf/sumdata)*100).toFixed(2)+"%");
 
       this.staticNum = staticNum;
       this.fixed_qy = fixed_qy;
@@ -473,11 +483,11 @@ export default {
                   // color: item.color || "#fff"
                   // 根据备案员工人数判断颜色
                   color:
-                    item.value3< 80
+                    item.value3< 95
                       ? '#f82727'//"#689c20"
-                      : item.value3<90
+                      : item.value3<99
                       ? "#ff912f"
-                      : item.value3<95
+                      : item.value3<100
                       ? "#64f855"
                       : "#30a5f0"
                 },

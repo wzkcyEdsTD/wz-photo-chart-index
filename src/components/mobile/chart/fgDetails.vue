@@ -12,7 +12,7 @@
       <span class="line1">人；已整改：</span>
       <span class="line2">{{ sumdatehas }}</span>
       <span class="line1">人；整改率：</span>
-      <span class="line2">{{sumdaterate}}%</span>
+      <span class="line2">{{strnum(sumdaterate)}}%</span>
     </div>
     <div class="infoline" style="top:40px">
       <span class="line1">重点人员</span>
@@ -83,10 +83,10 @@
     </div>
     <div class="infospan">数据截止：{{tm}}</div>
     <div class="kind">  
-      <div class="t1">整改率＜80%</div>
-      <div class="t2">80%~90%</div>
-      <div class="t3">90%~95%</div>
-      <div class="t4">＞95%</div>
+      <div class="t1">整改率＜95%</div>
+      <div class="t2">95%~99%</div>
+      <div class="t3">99%~100%</div>
+      <div class="t4">整改率=100%</div>
       
     </div>
     <!-- <div class="kind">
@@ -468,7 +468,7 @@ export default {
               },
             });
 
-            this.sumdaterate = parseInt(this.sumdatehas+this.sumdateafter)<=0?"100":parseInt((this.sumdatehas/(this.sumdatehas+this.sumdateafter))*100);
+            this.sumdaterate = parseInt(this.sumdatehas+this.sumdateafter)<=0?"100":((this.sumdatehas/(this.sumdatehas+this.sumdateafter))*100).toFixed(2);
             this.sumperson =parseInt(this.sumdatehas)+parseInt(this.sumdateafter);
         });
         that.objData = objData;
@@ -481,13 +481,23 @@ export default {
       this.getimpinfo();
   },
   methods: {
-
+    strnum(value){
+      if(value<=0){
+        return 0;
+      }
+      else if(value>=100)
+      {
+        return 100;
+      }else{
+        return value;
+      }
+    },
     filtnum(value){
-      if(value=="100.0%")
+      if(value=="100.0%"||value=="100.00%")
       {
         return "100%";
       }
-      else if(value=="0.0%")
+      else if(value=="0.0%"||value=="0.0%")
       {
         return "0%";
       }
@@ -653,7 +663,7 @@ export default {
               param.name,
               "已整改: " + (_obj_.has.sum || 0) + "人",
               "待整改: " + (_obj_.after.sum || 0) + "人",
-              "整改率: " + _obj_.rate.sum=="100.0%"?"100%":_obj_.rate.sum//((_obj_.rate.sum==0||_obj_.rate.sum>=1)?"100%":(_obj_.rate.sum*100).toFixed(1)+"%"),
+              "整改率: " + ((_obj_.rate.sum=="100.0%")?"100%":(_obj_.rate.sum))//((_obj_.rate.sum==0||_obj_.rate.sum>=1)?"100%":(_obj_.rate.sum*100).toFixed(1)+"%"),
             ].join("\n");
           },
           extraCssText: "white-space:pre-wrap;text-align:left;",
@@ -782,11 +792,11 @@ export default {
                 itemStyle: {
                   color:
                     !rate?"#b0b0b0"
-                      :rate < 80
-                      ? "#f82727" //"#689c20"
-                      : rate <90
+                      :rate < 95
+                      ? "#f82727"
+                      : rate <99
                       ? "#ff912f"
-                      : rate < 95
+                      : rate < 100
                       ? "#64f855"
                       : "#30a5f0",
                 },
