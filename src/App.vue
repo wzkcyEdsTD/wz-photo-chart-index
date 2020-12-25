@@ -19,7 +19,7 @@
     <div class="app_container">
       <transition :name="transitionName">
         <keep-alive include="Mobile">
-          <router-view></router-view>
+          <router-view  v-if="isRouter"></router-view>
         </keep-alive>
       </transition>
     </div>
@@ -31,6 +31,8 @@
 import router from "@/router";
 import { OPTION, GET_ARCGIS_TOKEN, WRT_config } from "./components/common/Tmap";
 import { fixMenuList } from "./components/common/user/menuHash";
+import Watermark from './components/common/user/watermark';
+let Base64 = require('js-base64').Base64;
 export default {
   name: "app",
   data() {
@@ -40,6 +42,7 @@ export default {
         { label: "防疫布控", route: "macroscopic" },
         { label: "疫情监控", route: "monitor" }
       ],
+      isRouter:false,
       current: 1,
       time: " ",
       transitionName: "slide-right"
@@ -57,6 +60,16 @@ export default {
     selected(index) {
       this.current = index;
     }
+  },
+  created(){
+    if(!!this.$route.query.userName)
+    {
+      // console.log("hah");
+       var userName =Base64.decode(this.$route.query.userName);
+       Watermark.set(userName)
+    }
+    this.isRouter = true;
+    //console.log("名儿字",this.$route.query.userName); 
   }
 };
 </script>

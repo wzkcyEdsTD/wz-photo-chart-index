@@ -409,7 +409,7 @@ export default {
         this.tm = this.strtime(jkxq[0].data_point)
         jkxq.map((item) => {
           const xjjd = item.town_name;
-          console.log(item.after_rectification_number_type_A)
+          //console.log(item.after_rectification_number_type_A)
           this.dtarrya[0] +=parseInt(item.has_rectification_number_type_A);
           this.dtarryb[0] +=parseInt(item.has_rectification_number_type_B);
           this.dtarryc[0] +=parseInt(item.has_rectification_number_type_C);
@@ -536,7 +536,7 @@ export default {
         that.impdataf = sumyzg;
         that.imprate = sumwzg<=0?"100%":parseInt((sumyzg/sumwzg)*100)+"%";
 
-        console.log("已整改：",sumyzg,"未整改",sumwzg)
+        //console.log("已整改：",sumyzg,"未整改",sumwzg)
 
       });
       //this.impinfo = axios.get("")
@@ -566,7 +566,7 @@ export default {
         { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
         { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" },
       ];
-      console.log(this.FgfcList);
+      
       const xq = this.FgfcList.filter(
         ({ area_name }) => area_name.replace(/产业集聚区/g, "") == _xq_
       );
@@ -590,7 +590,7 @@ export default {
         mapyzg[xjjd].value += parseInt(item.has_rectification_number);
         mapwzg[xjjd].value += parseInt(item.after_rectification_number);
         mapData[xjjd].value =(mapyzg[xjjd].value+mapwzg[xjjd].value)<=0?100:((mapyzg[xjjd].value/(mapwzg[xjjd].value+mapyzg[xjjd].value))*100).toFixed(1);  //item.rectification_completion_rate;
-        console.log("list",mapData[xjjd].value)
+        //console.log("list",mapData[xjjd].value)
         
         //mapwzg[xjjd].value <= 0
             // ? 0
@@ -657,7 +657,7 @@ export default {
         tooltip: {
           //提示框组件。
           formatter: function (param) {
-            console.log("123", that.objData);
+            //console.log("123", that.objData);
             const _obj_ = that.objData[param.name] || {};
             return [
               param.name,

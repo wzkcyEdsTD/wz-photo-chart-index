@@ -206,10 +206,10 @@ export default {
           sumyzg+=parseInt(element.has_rectification_number);
           sumwzg+=parseInt(element.after_rectification_number);
         })
-        console.log(that.jkList.length)
-        console.log("after",sumyzg);
-        console.log("has",sumwzg);
-        console.log(sumyzg/(sumyzg+sumwzg))
+        //console.log(that.jkList.length)
+        //console.log("after",sumyzg);
+       // console.log("has",sumwzg);
+        //console.log(sumyzg/(sumyzg+sumwzg))
         that.$parent.impdata = sumwzg;
         that.$parent.impdataf = sumyzg;
         that.$parent.imprate = sumwzg<=0?"0%":parseInt((sumyzg/sumwzg)*100)+"%";
@@ -218,7 +218,7 @@ export default {
         window.localStorage.setItem("impdata",sumwzg);
         window.localStorage.setItem("impdataf",sumyzg);
         window.localStorage.setItem("imprate",sumwzg<=0?"0%":parseInt((sumyzg/sumwzg)*100)+"%")
-        console.log("已整改：",sumyzg,"未整改",sumwzg)
+        //console.log("已整改：",sumyzg,"未整改",sumwzg)
 
       });
       //this.impinfo = axios.get("")
@@ -266,7 +266,7 @@ export default {
     
       this.tm = this.strtime(this.FgfcList[0].data_point)
       this.FgfcList.map(item => {
-        console.log("111",item)
+
         const _xq_ = item.area_name.replace(/产业集聚区/g, "");
         //  头部
         // num[0] += parseInt(item.ysq_qy_cnt); //  复工申请企业数
@@ -347,7 +347,7 @@ export default {
           _qy_.push(qyObj[v]);
         } 
       }
-      console.log("111",_qy_)
+      //console.log("111",_qy_)
       _qy_ = _qy_.sort((item,item2)=>{
         return Number(item.rate)-Number(item2.rate);
       })
@@ -364,7 +364,7 @@ export default {
 
 
       
-      console.log("sort",fixed_qy)
+      //console.log("sort",fixed_qy)
       this.picactive = true;
       const _yg_ = [];
       const fixed_yg = { name: [], all: [], sn: [], sw: [] };
@@ -472,7 +472,7 @@ export default {
               }
             },
             data: this.mapdata.map(item => {
-              console.log(item.value3);
+              //console.log(item.value3);
               return {
                 name: item.name,
                 value: item.Sumyzg,

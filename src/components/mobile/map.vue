@@ -157,6 +157,7 @@ export default {
     };
   },
   async mounted() {
+    
     this.date = this.$date();
     // !this.blList.length && this.fetchBlList();
     // !this.flagList.length && this.fetchFlagList();
