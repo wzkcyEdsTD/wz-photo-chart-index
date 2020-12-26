@@ -1,21 +1,5 @@
 <template>
   <div id="app">
-    <!-- <header :class="`app_header `">
-      <div class="app_icon">鹿城区疫情防控指挥地图</div>
-      <div class="app_toptab_position app_toptab_normal">
-        <ul class="app_toptab">
-          <li
-            v-for="(item,index) in toptab"
-            :key="index"
-            :class="{top_active:index==current}"
-            @click="$goRoute(item.route),selected(index)"
-          >{{item.label}}</li>
-        </ul>
-        <p>截至日期：2020年2月1日8点</p>
-        <p style="position: absolute;right: 15px;top: 15px;">温州设计集团勘测院</p>
-        <p style="position: absolute;right: 15px;top: 40px;">{{time}}</p>
-      </div>
-    </header>-->
     <div class="app_container">
       <transition :name="transitionName">
         <keep-alive include="Mobile">
@@ -62,12 +46,12 @@ export default {
     }
   },
   created(){
-    if(!!this.$route.query.userName)
-    {
-      // console.log("hah");
-       var userName =Base64.decode(this.$route.query.userName);
-       Watermark.set(userName)
-    }
+    // if(!!this.$route.query.userName)
+    // {
+    //   // console.log("hah");
+    //    var userName =Base64.decode(this.$route.query.userName);
+    //    Watermark.set(userName)
+    // }
 
     //console.log("名儿字",this.$route.query.userName); 
   }
@@ -80,6 +64,9 @@ export default {
 @import url("components/common/css/animate.css");
 @import url("components/common/css/frame.less");
 @import url("components/common/css/arcgis.css");
+
+
+
 .Router {
   position: relative;
 }

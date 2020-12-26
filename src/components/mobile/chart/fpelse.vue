@@ -1,76 +1,5 @@
 <template>
   <div class="sf">
-    <!-- <fgTop title="全市" :num="num" /> -->
-    <!-- <div class="bottom" style="display:none">
-      <p>
-        <span class="text">截至</span> 2020-2-<span class="time">{{date}}</span>&nbsp;
-        <span class="time">{{time}}</span>时，数据每30分钟更新
-        <img style src="../img/logo.png" @click="showLogo()" />
-      </p>
-    </div> -->
-    <div class="TOP_DATA">
-      <div>
-        <div class="tbox">
-          <table style="width:135px;font-size:12px;" cellpadding="0" cellspacing="0">
-            <thead>
-              <tr>
-                <td>
-                  类型
-                </td>
-                <td >
-                  已整改
-                </td>
-                <td>
-                  待整改
-                </td>
-              </tr>
-              <tr>
-                <td>A</td>
-                <td style="color:#28DEC8">{{dataa1}}</td>
-                <td style="color:red">{{dataa2}}</td>          
-              </tr>
-              <tr>
-                <td>B</td>
-                <td style="color:#28DEC8">{{datab1}}</td>
-                <td style="color:red">{{datab2}}</td>         
-              </tr>
-              <tr>
-                <td>C</td>
-                <td style="color:#28DEC8">{{datac1}}</td>
-                <td style="color:red">{{datac2}}</td>
-              </tr>
-              <tr>
-                <td>D</td>
-                <td style="color:#28DEC8">{{datad1}}</td>
-                <td style="color:red">{{datad2}}</td>
-              </tr>
-              <tr>
-                <td>E</td>
-                <td style="color:#28DEC8">{{datae1}}</td>
-                <td style="color:red">{{datae2}}</td>
-              </tr>
-              <tr>
-                <td>F</td>
-                <td style="color:#28DEC8">{{dataf1}}</td>
-                <td style="color:red">{{dataf2}}</td>
-              </tr>
-              <tr>
-                <td>G</td>
-                <td style="color:#28DEC8">{{datag1}}</td>
-                <td style="color:red">{{datag2}}</td>
-              </tr>
-              <tr>
-                <td>H</td>
-                <td style="color:#28DEC8">{{datah1}}</td>
-                <td style="color:red">{{datah2}}</td>
-              </tr>
-            </thead>
-            
-          </table>
-        </div>
-      </div>
-    </div>
-
     <div id="nyjj-map"></div>
     
     <!-- <img class="down" :src="down" /> -->
@@ -120,22 +49,6 @@ export default {
       fixed_qy: { name: [], hb: [], rest: [] },
       picactive:false,
       jkList:[],
-      dataa1:0,
-      datab1:0,
-      datac1:0,
-      datad1:0,
-      datae1:0,
-      dataf1:0,
-      datag1:0,
-      datah1:0,
-      dataa2:0,
-      datab2:0,
-      datac2:0,
-      datad2:0,
-      datae2:0,
-      dataf2:0,
-      datag2:0,
-      datah2:0,
       alldata:0,
       alldataf:0,
       allrate:"0%",
@@ -161,7 +74,7 @@ export default {
   },
   mounted() {
     var date = new Date();
-
+    console.log("123123");
     //var strdate = new Date(value.createtime.replace(/-/g, '/'))
     var year = date.getFullYear();
     var month = date.getMonth()<9?"0"+(date.getMonth()+1):date.getMonth()+1;
@@ -169,14 +82,13 @@ export default {
     var hour = date.getHours()<10?"0"+date.getHours():date.getHours();
     this.date = year+"年"+month+"月"+day+"日"+hour+"时"
     this.NYJJMapInit(); //调用地图
-    !this.FgfcList.length && this.fetchFgfcList();
+    !this.FgfcList.length && this.fetchFgfcList2();
 
-    this.getimpinfo()
     //this.fgfcDataFix();
 
   },
   methods: {
-    ...mapActions(["fetchFgfcList"]),
+    ...mapActions(["fetchFgfcList2"]),
     
     strnum(value){
       if(value=="0.00%"){
@@ -239,22 +151,7 @@ export default {
       // this.time = this.FgfcList[0].gxsj.substring(11, 16);
       // this.$parent.sfdate = this.FgfcList[0].gxsj.substring(8, 10);
       // this.$parent.sftime = this.FgfcList[0].gxsj.substring(11, 16);
-      let dataa1=0;
-      let datab1=0;
-      let datac1=0;
-      let datad1=0;
-      let datae1=0;
-      let dataf1=0;
-      let datag1=0;
-      let datah1=0;
-      let dataa2=0;
-      let datab2=0;
-      let datac2=0;
-      let datad2=0;
-      let datae2=0;
-      let dataf2=0;
-      let datag2=0;
-      let datah2=0;
+
       const mapqyObj = {};
       const mapygObj = {};
       const mapyzg={};
@@ -263,7 +160,9 @@ export default {
       const ygObj = {};
       const num = [0, 0];
       const staticNum = [0, 0, 0, 0];
-    
+      var alldata =0;
+      var alldataf = 0;
+      var allrate = "100%";
       this.tm = this.strtime(this.FgfcList[0].data_point)
       this.FgfcList.map(item => {
 
@@ -283,29 +182,32 @@ export default {
         //  地图
         // !mapqyObj[_xq_] && (mapqyObj[_xq_] = 0);
         // !mapygObj[_xq_] && (mapygObj[_xq_] = 0);
-        dataa1 +=parseInt(item.has_rectification_number_type_A);
-        datab1 +=parseInt(item.has_rectification_number_type_B);
-        datac1 +=parseInt(item.has_rectification_number_type_C);
-        datad1 +=parseInt(item.has_rectification_number_type_D);
-        datae1 +=parseInt(item.has_rectification_number_type_E);
-        dataf1 +=parseInt(item.has_rectification_number_type_F);
-        datag1 +=parseInt(item.has_rectification_number_type_G);
-        datah1 +=parseInt(item.has_rectification_number_type_H);
+        // dataa1 +=parseInt(item.has_rectification_number_type_A);
+        // datab1 +=parseInt(item.has_rectification_number_type_B);
+        // datac1 +=parseInt(item.has_rectification_number_type_C);
+        // datad1 +=parseInt(item.has_rectification_number_type_D);
+        // datae1 +=parseInt(item.has_rectification_number_type_E);
+        // dataf1 +=parseInt(item.has_rectification_number_type_F);
+        // datag1 +=parseInt(item.has_rectification_number_type_G);
+        // datah1 +=parseInt(item.has_rectification_number_type_H);
         
-        dataa2 +=parseInt(item.after_rectification_number_type_A);
-        datab2 +=parseInt(item.after_rectification_number_type_B);
-        datac2 +=parseInt(item.after_rectification_number_type_C);
-        datad2 +=parseInt(item.after_rectification_number_type_D);
-        datae2 +=parseInt(item.after_rectification_number_type_E);
-        dataf2 +=parseInt(item.after_rectification_number_type_F);
-        datag2 +=parseInt(item.after_rectification_number_type_G);
-        datah2 +=parseInt(item.after_rectification_number_type_H);
+        // dataa2 +=parseInt(item.after_rectification_number_type_A);
+        // datab2 +=parseInt(item.after_rectification_number_type_B);
+        // datac2 +=parseInt(item.after_rectification_number_type_C);
+        // datad2 +=parseInt(item.after_rectification_number_type_D);
+        // datae2 +=parseInt(item.after_rectification_number_type_E);
+        // dataf2 +=parseInt(item.after_rectification_number_type_F);
+        // datag2 +=parseInt(item.after_rectification_number_type_G);
+        // datah2 +=parseInt(item.after_rectification_number_type_H);
 
 
         !mapyzg[_xq_] && (mapyzg[_xq_] = 0);
         !mapwzg[_xq_] && (mapwzg[_xq_] = 0);
         mapyzg[_xq_] +=parseInt(item.has_rectification_number);
         mapwzg[_xq_] +=parseInt(item.after_rectification_number);
+        alldata += parseInt(item.has_rectification_number)+parseInt(item.after_rectification_number);
+        alldataf += parseInt(item.has_rectification_number);
+        allrate = (alldataf/alldataf).toFixed(2);
         mapqyObj[_xq_] =(mapwzg[_xq_]+mapyzg[_xq_])<=0?100:((mapyzg[_xq_]/(mapwzg[_xq_]+mapyzg[_xq_]))*100).toFixed(1); //(mapyzg[_xq_]+mapwzg[_xq_])<=0?0:mapyzg[_xq_]/(mapyzg[_xq_]+mapwzg[_xq_])
         if(mapqyObj[_xq_]>=100){mapqyObj[_xq_]=100;}
         // mapygObj[_xq_] +=
@@ -383,29 +285,29 @@ export default {
       this.num = this.num.map((item, index) => {
         return { ...item, value: num[index] };
       });
-      this.dataa1 = dataa1;
-      this.datab1 = datab1;
-      this.datac1 = datac1;
-      this.datad1 = datad1;
-      this.datae1 = datae1;
-      this.dataf1 = dataf1;
-      this.datag1 = datag1;
-      this.datah1 = datah1;
+      // this.dataa1 = dataa1;
+      // this.datab1 = datab1;
+      // this.datac1 = datac1;
+      // this.datad1 = datad1;
+      // this.datae1 = datae1;
+      // this.dataf1 = dataf1;
+      // this.datag1 = datag1;
+      // this.datah1 = datah1;
 
-      this.dataa2 = dataa2;
-      this.datab2 = datab2;
-      this.datac2 = datac2;
-      this.datad2 = datad2;
-      this.datae2 = datae2;
-      this.dataf2 = dataf2;
-      this.datag2 = datag2;
-      this.datah2 = datah2;
+      // this.dataa2 = dataa2;
+      // this.datab2 = datab2;
+      // this.datac2 = datac2;
+      // this.datad2 = datad2;
+      // this.datae2 = datae2;
+      // this.dataf2 = dataf2;
+      // this.datag2 = datag2;
+      // this.datah2 = datah2;
       
-      var sumdata = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
-      var sumdataf = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
-      this.$parent.alldata =sumdata; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
-      this.$parent.alldataf =sumdataf; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
-      this.$parent.allrate = this.strnum(sumdata<=0?"0%":((sumdataf/sumdata)*100).toFixed(2)+"%");
+      // var sumdata = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
+      // var sumdataf = dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
+      this.$parent.alldata =alldata; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1+dataa2+datab2+datac2+datad2+datae2+dataf2+datag2+datah2;
+      this.$parent.alldataf =alldataf; //dataa1+datab1+datac1+datad1+datae1+dataf1+datag1+datah1;
+      this.$parent.allrate = this.strnum(alldata<=0?"0%":((alldataf/alldata)*100).toFixed(2)+"%");
 
       this.staticNum = staticNum;
       this.fixed_qy = fixed_qy;

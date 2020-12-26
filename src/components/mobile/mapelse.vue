@@ -4,36 +4,22 @@
       <span>温州市新冠肺炎防控作战地图</span>
     </div>-->
     <!-- <header class="app_header">温州市被征地农民参保</header> -->
-    <div class="nav_top">
-      <div class="nav_top_box">
-        <div class="menubox">
-          <div class="tlname">任务:</div>
-          <div class="menu_list_box">
-            <div class="showcolumn" @click="showcolumn()">八类人员</div>
-            <div class="column_list" v-show="columnshow">
-              <div class="column_item" @clikc="showcol('fg')">八类人员</div>
-              <div class="column_item" @click="showcol('fpelse')">五类人员</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="infoline">
-      <span class="line1">总人数</span>
+      <span class="line1">总人数11</span>
       <span class="line2">{{alldata}}</span>
       <span class="line1">人；已整改</span>
       <span class="line2">{{alldataf}}</span>
       <span class="line1">人；整改率</span>
       <span class="line2">{{allrate}}</span>
     </div>
-    <div class="infoline" style="top:90px" v-if="column==1">
+    <!-- <div class="infoline" style="top:40px">
       <span class="line1">重点人员</span>
       <span class="line2">{{impdata}}</span>
       <span class="line1">人；已整改</span>
       <span class="line2">{{impdataf}}</span>
       <span class="line1">人；整改率</span>
       <span class="line2">{{imprate}}</span>
-    </div>
+    </div> -->
     <div class="qz" v-if="current == 2">
       <div class="qz_num">
         <ul>
@@ -85,17 +71,7 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-     <fpelse />
-    <!-- <div>
-      <transition>
-        <components
-          :is="activeName"
-        ></components>
-      </transition>
-    </div> -->
-    <!-- <fg v-if="column==1"/>
-
-    <fpelse v-if="column==2"/> -->
+    <fpelse/>
     <!-- <sf v-if="current == 1" />
     <fk v-if="current == 2" ref="fk" />
     <bl v-if="current == 3" ref="bl" />
@@ -112,7 +88,6 @@ import fk from "./chart/fk";
 import tb from "./chart/tb";
 import fx from "./chart/fx";
 import sf from "./chart/sf";
-import fg from "./chart/fg";
 import fpelse from "./chart/fpelse";
 import pop from "./chart/popDiv"; //阵地详情弹框
 import wx from "weixin-js-sdk";
@@ -121,8 +96,8 @@ import axios from "axios";
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "Mobile",
-  components: { bl, fk, tb, pop, fx, sf, fg, fpelse },
+  name: "mapelse",
+  components: { bl, fk, tb, pop, fx, sf, fpelse },
   data() {
     return {
       sfdate: "",
@@ -130,9 +105,7 @@ export default {
       alldata:0,
       alldataf:0,
       allrate:"0%",
-      columnshow:false,
-      activeName:"fpelse",
-      column:1,
+
       impdata:0,
       impdataf:0,
       imprate:"0%",
@@ -184,10 +157,7 @@ export default {
     };
   },
   async mounted() {
-    if(!!this.$route.query.column)
-    {
-      this.column = this.$route.query.column
-    }
+    
     this.date = this.$date();
     // !this.blList.length && this.fetchBlList();
     // !this.flagList.length && this.fetchFlagList();
@@ -215,14 +185,6 @@ export default {
     }
   },
   methods: {
-    showcol(value){
-      //this.$goRoute("mobile",1)
-      //this.column = value;
-      this.activeName = value;
-    },
-    showcolumn(){
-      this.columnshow = !this.columnshow
-    },
     // ...mapActions([
     //   "fetchBlList",
     //   "fetchFlagList",
@@ -364,86 +326,7 @@ export default {
   background-image: url("./img/bg.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-    .nav_top{
-      height:61px;
-      position: fixed;
-      z-index:15;
-      background-color:#141A66;
-      width:100%;
-      box-sizing: border-box;
-      padding:10px 15px;
-      
-      .nav_top_box{
-        width:100%;
-        box-sizing: border-box;
-        height:40px;
-        text-align: center;
-        background:url("./img/columnline.png") center center no-repeat;
-        background-size:100% 100%;
 
-        .menubox{
-          width:50%;
-          float: left;
-          height:100%;
-
-          .tlname{
-            display:block;
-            float: left;
-            font-size:14px;
-            font-weight:bold;
-            color:#ffbf13;
-            line-height:40px;
-          }  
-          
-          .menu_list_box{
-            display: block;
-            float: left;
-            height:30px;
-            margin-top:5px;
-            margin-left:15px;
-            width:100px;
-            border:solid 1px #0090ff;
-            box-sizing: border-box;
-            background:url(./img/arrowdown.png) right 5px center no-repeat;
-            background-size:7px 5px;
-            background-color:#021739;
-            position: relative;
-
-            .showcolumn{
-              width:100%;
-              height:100%;
-              font-size:12px;
-              line-height:30px;
-              color:#fff;
-              text-align: left;
-              padding-left:15px;
-            }
-            
-            .column_list{
-              position:absolute;
-              top:30px;
-              right:0px;
-              width:100%;
-
-              .column_item{
-                border:solid 1px #0090ff;
-                border-top:none;
-                background-color:rgba(20, 26, 102, 0.9);
-                width:100%;
-                height:30px;
-                color:#fff;
-                text-align: left;
-                padding-left:15px;
-                font-size: 12px;
-                line-height:28px;
-                box-sizing: border-box;
-              }
-            }
-
-          }
-        }
-      }
-    }
     .infoline{
       position: absolute;
       width:100%;
@@ -452,7 +335,7 @@ export default {
       height:35px;
       background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
       text-align: center;
-      top:60px;
+      top:10px;
       right:0px;
       z-index:10;
     .line1{

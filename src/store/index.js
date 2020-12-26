@@ -2,7 +2,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-import { wz_qzjcysj, wz_blxxb, wz_bqztb, wz_jdqdhbqb, wz_qzkjhzbb, wz_sfxxbb, view_qzcytjz, view_zytj, wz_fgfcxx,wz_zdinfo } from "@/api/beans/fetch";
+import { wz_qzjcysj, wz_blxxb, wz_bqztb, wz_jdqdhbqb, wz_qzkjhzbb, wz_sfxxbb, view_qzcytjz, view_zytj, wz_fgfcxx,wz_zdinfo,wz_zdinfo2 } from "@/api/beans/fetch";
 export default new Vuex.Store({
   state: {
     /** 首页病例 */
@@ -5878,5 +5878,27 @@ export default new Vuex.Store({
       console.log(obj,)
       commit('updateFgfcList', obj.data);
     },
+
+
+
+
+    async fetchFgfcList2({ state, commit }) {
+        /*const { data } = await wz_fgfcxx();
+        console.log("111",data);
+        console.log("2222",state.rs1);
+        const _data_ = data.map(item => {
+          const _item_ = item;
+          for (let v in _item_) {
+            ["id", "dept_id", "area1", "area2", "gxsj"].indexOf(v) < 0 &&
+              (_item_[v] = _item_[v] ? parseInt(_item_[v]) : 0)
+          }
+          return _item_;
+        })
+        console.log(_data_);*/
+        var rs = await wz_zdinfo2();
+        var obj = JSON.parse(rs.result);
+        console.log(obj,)
+        commit('updateFgfcList', obj.data);
+      },
   }
 });

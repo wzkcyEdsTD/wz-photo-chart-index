@@ -13,6 +13,7 @@ import BlImg from "./components/mobile/blImg.vue"
 import sfDetail from "./components/mobile/chart/sfDetails.vue"
 import fgDetail from "./components/mobile/chart/fgDetails.vue"
 import error from "./components/mobile/error.vue"
+import mapelse from "./components/mobile/mapelse.vue"
 
 Vue.use(Router);
 
@@ -61,6 +62,11 @@ export default new Router({
         path: "/error",
         name: "error",
         component: error
+      },
+      {
+        path: "/mapelse",
+        name: "mapelse",
+        component: mapelse
       },
     ]
 });
