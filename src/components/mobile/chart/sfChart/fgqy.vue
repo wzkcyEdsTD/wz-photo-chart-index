@@ -1,6 +1,6 @@
 <template>
   <div class="fg-chart">
-    <div class="fg-chart-title">各县(市)区八类人员整改率排名</div>
+    <div class="fg-chart-title">各县(市)区{{title}}整改率排名</div>
     <div class="fg-chart-content" ref="fg"></div>
   </div>
 </template>
@@ -9,15 +9,18 @@ import { mapActions } from "vuex";
 export default {
   name: "fg-chart",
   data() {
-    return {};
+    return {
+      title:'八类人员',
+    };
   },
-  props: ["chartData"],
+  props: ["chartData","title"],
   methods: {
     ...mapActions(["fetchFgList"]),
     drawEchart() {
       this.chart = this.$echarts.init(this.$refs.fg);
       console.log("chart", this.chartData);
       var arry = this.chartData.test;
+      console.log("arry1",arry);
       console.log("arry", arry, "arry2", arry.reverse());
       this.chart.setOption({
         tooltip: {

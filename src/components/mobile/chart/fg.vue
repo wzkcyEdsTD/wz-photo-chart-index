@@ -80,8 +80,8 @@
       <div class="t3">99%~100%</div>
       <div class="t4">整改率=100%</div>
     </div>
-    <div class="infospan">数据截止：{{tm}}</div>
-    <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" />
+    <div class="infospan" style="display:none;">数据截止：{{tm}}</div>
+    <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" :title="'八类人员'"/>
     <!-- <fgyg :chartData="fixed_yg" ref="fg_chart" /> -->
     <!-- 底部 -->
     <div class="bottom">
@@ -265,6 +265,7 @@ export default {
       const staticNum = [0, 0, 0, 0];
     
       this.tm = this.strtime(this.FgfcList[0].data_point)
+      this.$parent.tm = this.strtime(this.FgfcList[0].data_point);
       this.FgfcList.map(item => {
 
         const _xq_ = item.area_name.replace(/产业集聚区/g, "");

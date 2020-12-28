@@ -7,15 +7,16 @@
     <div class="nav_top">
       <div class="nav_top_box">
         <div class="menubox">
-          <div class="tlname">任务:</div>
+          <div class="tlname"></div>
           <div class="menu_list_box">
-            <div class="showcolumn" @click="showcolumn()">八类人员</div>
+            <div class="showcolumn" @click="showcolumn()">{{colname}}</div>
             <div class="column_list" v-show="columnshow">
-              <div class="column_item" @clikc="showcol('fg')">八类人员</div>
-              <div class="column_item" @click="showcol('fpelse')">五类人员</div>
+              <div class="column_item" @click="showcol(1,'八类整改人员')">八类整改人员</div>
+              <div class="column_item" @click="showcol(2,'五类未分人员')">五类未分人员</div>
             </div>
           </div>
         </div>
+        <div class="endtime">截止:{{tm}}</div>
       </div>
     </div>
     <div class="infoline">
@@ -85,16 +86,7 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-     <fpelse />
-    <!-- <div>
-      <transition>
-        <components
-          :is="activeName"
-        ></components>
-      </transition>
-    </div> -->
-    <!-- <fg v-if="column==1"/>
-
+    <fg v-if="column==1"/>
     <fpelse v-if="column==2"/> -->
     <!-- <sf v-if="current == 1" />
     <fk v-if="current == 2" ref="fk" />
@@ -129,10 +121,13 @@ export default {
       sftime: "",
       alldata:0,
       alldataf:0,
+      tm:"",
       allrate:"0%",
       columnshow:false,
-      activeName:"fpelse",
-      column:1,
+      columnList:["八类整改人员","五类未分人员"],
+      colname:'',
+      activeName:"fg",
+      column:"",
       impdata:0,
       impdataf:0,
       imprate:"0%",
@@ -184,9 +179,15 @@ export default {
     };
   },
   async mounted() {
+    
     if(!!this.$route.query.column)
     {
+      console.log(this.$route.query.column)
       this.column = this.$route.query.column
+      this.colname= this.columnList[this.column-1];
+    }else{
+        this.column = 1
+        this.colname= this.columnList[0];
     }
     this.date = this.$date();
     // !this.blList.length && this.fetchBlList();
@@ -198,6 +199,18 @@ export default {
     // await this.fetchQushiData();
     // await this.fetchZyRateData();
   },
+
+  // activated() {
+  //   if(!!this.$route.query.column)
+  //   {
+  //     console.log(this.$route.query.column)
+  //     this.column = this.$route.query.column
+  //     this.colname= this.columnList[this.column-1];
+  //   }else{
+  //       this.column = 1
+  //       this.colname= this.columnList[0];
+  //   }
+  // },
   computed: {
     ...mapState({
       blList: state => state.blList,
@@ -215,10 +228,12 @@ export default {
     }
   },
   methods: {
-    showcol(value){
-      //this.$goRoute("mobile",1)
-      //this.column = value;
-      this.activeName = value;
+    showcol(value,colname){
+      // this.colname = colname;
+      window.location.href="#/?column="+value;
+      window.location.reload();
+      //this.activeName = value;
+      //this.$router.push({path: "/load",query: {column:value}})
     },
     showcolumn(){
       this.columnshow = !this.columnshow
@@ -401,22 +416,23 @@ export default {
             height:30px;
             margin-top:5px;
             margin-left:15px;
-            width:100px;
-            border:solid 1px #0090ff;
+            width:110px;
+            //border:solid 1px #0090ff;
             box-sizing: border-box;
             background:url(./img/arrowdown.png) right 5px center no-repeat;
             background-size:7px 5px;
-            background-color:#021739;
+            //background-color:#021739;
             position: relative;
 
             .showcolumn{
               width:100%;
               height:100%;
-              font-size:12px;
+              font-size:14px;
               line-height:30px;
               color:#fff;
               text-align: left;
-              padding-left:15px;
+              padding-left:10px;
+              box-sizing: border-box;
             }
             
             .column_list{
@@ -434,13 +450,22 @@ export default {
                 color:#fff;
                 text-align: left;
                 padding-left:15px;
-                font-size: 12px;
+                font-size: 14px;
                 line-height:28px;
                 box-sizing: border-box;
               }
             }
 
           }
+        }
+
+        .endtime{
+          width:50%;
+          float: left;
+          height:100%;
+          font-size:14px;
+          line-height:40px;
+          color:#fff
         }
       }
     }

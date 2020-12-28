@@ -12,8 +12,10 @@ import MobileGK from "./components/mobile/gk.vue"
 import BlImg from "./components/mobile/blImg.vue"
 import sfDetail from "./components/mobile/chart/sfDetails.vue"
 import fgDetail from "./components/mobile/chart/fgDetails.vue"
+import fgDetail2 from "./components/mobile/chart/fgDetails2.vue"
 import error from "./components/mobile/error.vue"
 import mapelse from "./components/mobile/mapelse.vue"
+import load from "./components/mobile/load.vue"
 
 Vue.use(Router);
 
@@ -54,6 +56,11 @@ export default new Router({
         component: fgDetail
       },
       {
+        path: "/fgDetail2",
+        name: "fgDetail2",
+        component: fgDetail2
+      },
+      {
         path: "/monitor",
         name: "monitor",
         component: Monitor
@@ -68,5 +75,10 @@ export default new Router({
         name: "mapelse",
         component: mapelse
       },
+      {
+        path: "/load",
+        name: "load",
+        component: load
+      }
     ]
 });

@@ -4,13 +4,13 @@
     
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
-      <div class="t1">整改率＜95%</div>
-      <div class="t2">95%~99%</div>
-      <div class="t3">99%~100%</div>
-      <div class="t4">整改率=100%</div>
+      <div class="t1">整改率＜{{color[0]}}%</div>
+      <div class="t2">{{color[0]}}%~{{color[1]}}%</div>
+      <div class="t3">{{color[1]}}%~{{color[2]}}%</div>
+      <div class="t4">整改率＞={{color[2]}}%</div>
     </div>
-    <div class="infospan">数据截止：{{tm}}</div>
-    <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" />
+    <div class="infospan" style="display:none">数据截止：{{tm}}</div>
+    <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" :title="'五类未分人员'"/>
     <!-- <fgyg :chartData="fixed_yg" ref="fg_chart" /> -->
     <!-- 底部 -->
     <div class="bottom">
@@ -35,6 +35,7 @@ import { mapState, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
+  name:"fpelse",
   data() {
     return {
       chart: undefined,
@@ -42,6 +43,7 @@ export default {
       num: [
         
       ],
+      color:[],
       tm:"",
       impinfo:[],
       staticNum: [0, 0, 0, 0],
@@ -72,9 +74,13 @@ export default {
       this.fgfcDataFix();
     }
   },
+  // created(){
+  //   const a =this.$window.color_data.color;
+  //   console.log("123123",this.color);
+  // },
   mounted() {
     var date = new Date();
-    console.log("123123");
+    this.color =this.$window.color_data.color;
     //var strdate = new Date(value.createtime.replace(/-/g, '/'))
     var year = date.getFullYear();
     var month = date.getMonth()<9?"0"+(date.getMonth()+1):date.getMonth()+1;
@@ -164,6 +170,7 @@ export default {
       var alldataf = 0;
       var allrate = "100%";
       this.tm = this.strtime(this.FgfcList[0].data_point)
+      this.$parent.tm = this.strtime(this.FgfcList[0].data_point);
       this.FgfcList.map(item => {
 
         const _xq_ = item.area_name.replace(/产业集聚区/g, "");
@@ -199,7 +206,7 @@ export default {
         // dataf2 +=parseInt(item.after_rectification_number_type_F);
         // datag2 +=parseInt(item.after_rectification_number_type_G);
         // datah2 +=parseInt(item.after_rectification_number_type_H);
-
+    
 
         !mapyzg[_xq_] && (mapyzg[_xq_] = 0);
         !mapwzg[_xq_] && (mapwzg[_xq_] = 0);
@@ -385,13 +392,20 @@ export default {
                   // color: item.color || "#fff"
                   // 根据备案员工人数判断颜色
                   color:
-                    item.value3< 95
+                    item.value3< this.color[0]
                       ? '#f82727'//"#689c20"
-                      : item.value3<99
+                      : item.value3<this.color[1]
                       ? "#ff912f"
-                      : item.value3<100
+                      : item.value3<this.color[2]
                       ? "#64f855"
                       : "#30a5f0"
+//                     item.value3<= 95
+//                       ? '#f82727'//"#689c20"
+//                       : item.value3<99
+//                       ? "#ff912f"
+//                       : item.value3<100
+//                       ? "#64f855"
+//                       : "#30a5f0"
                 },
                 coord: item.coord
               };
@@ -494,7 +508,7 @@ export default {
       that.chart.getZr().on("click", function(event) {
         if (event.target) {
           that.$router.push({
-            path: "/fgDetail",
+            path: "/fgDetail2",
             query: {
               label: that.mapdata[event.target.dataIndex].name,
               date: that.date,
@@ -564,7 +578,7 @@ export default {
  
 
   #nyjj-map {
-    margin-top:140px;
+    margin-top:100px;
     width: 100%;
     height: 80%;
   }

@@ -5,7 +5,7 @@
       <p>{{ $route.query.label }}被征地农民参保</p>
     </div> -->
     <!-- <fgtop :num="num" /> -->
-    <p style="padding: 10px 0px; font-size: 18px;font-weight:bold">{{$route.query.label}}各乡镇街道八类整改人员整改率</p>
+    <p style="padding: 10px 0px; font-size: 18px;font-weight:bold">{{$route.query.label}}各乡镇街道五类未分人员整改率</p>
     <div class="infoline">
       <span class="line1">总人数：</span>
       <span class="line2">{{sumperson}}</span>
@@ -13,14 +13,6 @@
       <span class="line2">{{ sumdatehas }}</span>
       <span class="line1">人；整改率：</span>
       <span class="line2">{{strnum(sumdaterate)}}%</span>
-    </div>
-    <div class="infoline" style="top:40px">
-      <span class="line1">重点人员</span>
-      <span class="line2">{{impdata}}</span>
-      <span class="line1">人；已整改</span>
-      <span class="line2">{{impdataf}}</span>
-      <span class="line1">人；整改率</span>
-      <span class="line2">{{imprate}}</span>
     </div>
     
     <!-- <div id="bl-head">
@@ -34,61 +26,25 @@
         </li>
       </ul>
     </div> -->
-    <div class="tbox" v-if="infoactive">
-      <table
-        style="width: 100%; font-size: 12px"
-        cellpadding="0"
-        cellspacing="0"
-      >
-        <thead>
-          <tr>
-            <td>类型</td>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
-            <td>D</td>
-            <td>E</td>
-            <td>F</td>
-            <td>G</td>
-            <td>H</td>
-          </tr>
-          <tr>
-            <td>已整改</td>
-            <td style="color: #28dec8">{{dtarrya[0]}}</td>
-            <td style="color: #28dec8">{{dtarryb[0]}}</td>
-            <td style="color: #28dec8">{{dtarryc[0]}}</td>
-            <td style="color: #28dec8">{{dtarryd[0]}}</td>
-            <td style="color: #28dec8">{{dtarrye[0]}}</td>
-            <td style="color: #28dec8">{{dtarryf[0]}}</td>
-            <td style="color: #28dec8">{{dtarryg[0]}}</td>
-            <td style="color: #28dec8">{{dtarryh[0]}}</td>
-          </tr>
-           <tr>
-            <td>待整改</td>
-            <td style="color: red">{{dtarrya[1]}}</td>
-            <td style="color: red">{{dtarryb[1]}}</td>
-            <td style="color: red">{{dtarryc[1]}}</td>
-            <td style="color: red">{{dtarryd[1]}}</td>
-            <td style="color: red">{{dtarrye[1]}}</td>
-            <td style="color: red">{{dtarryf[1]}}</td>
-            <td style="color: red">{{dtarryg[1]}}</td>
-            <td style="color: red">{{dtarryh[1]}}</td>
-          </tr>
-        </thead>
-      </table>
-    </div>
+    
     <div class="mapDiv" id="mapDiv">
       <div id="xq-map"></div>
       <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
     </div>
     <div class="infospan">数据截止：{{tm}}</div>
-    <div class="kind">  
+    <!-- <div class="kind">  
       <div class="t1">整改率＜95%</div>
       <div class="t2">95%~99%</div>
       <div class="t3">99%~100%</div>
-      <div class="t4">整改率=100%</div>
-      
+      <div class="t4">整改率=100%</div>    
+    </div> -->
+    <div class="kind">
+      <div class="t1">整改率＜{{color[0]}}%</div>
+      <div class="t2">{{color[0]}}%~{{color[1]}}%</div>
+      <div class="t3">{{color[1]}}%~{{color[2]}}%</div>
+      <div class="t4">整改率＞={{color[2]}}%</div>
     </div>
+    <fgqy :chartData="fixed_qy" ref="qf_chart" v-if="picactive" :title="'五类未分人员'" />
     <!-- <div class="kind">
       <p style="height: 23px;">提交复工申请企业总数</p>
       <div class="t1">≥2万家</div>
@@ -97,135 +53,7 @@
       <div class="t4">＜0.5万家</div>
     </div>-->
     <!-- 返工信息 -->
-    <div class="bltitle" style="width: 96%; margin-left: 2%">
-      <img src="../img/blxq.png" />
-      <p>
-        整改信息
-        <i style="color: #ccc; font-style: normal">（左右可拖动查阅）</i>
-      </p>
-    </div>
-    <div
-      id="tbbox"
-      style="width: 96%; overflow: auto; margin-left: 2%; padding-bottom: 15px"
-    >
-      <table
-        style="width: 1500px; font-size: 12px"
-        cellpadding="0"
-        cellspacing="0"
-      >
-        <thead>
-          <tr>
-            <td rowspan="2" style="width: 50px">
-              乡镇
-              <br />街道
-            </td>
-            <td colspan="3">八类人员</td>
-            <td colspan="3">A类</td>
-            <td colspan="3">B类</td>
-            <td colspan="3">C类</td>
-            <td colspan="3">D类</td>
-            <td colspan="3">E类</td>
-            <td colspan="3">F类</td>
-            <td colspan="3">G类</td>
-            <td colspan="3">H类</td>
-          </tr>
-          <tr>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-            <td>已整改</td>
-            <td>待整改</td>
-            <td>整改率</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, key, index) in objData" :key="index">
-            <td>{{ key }}</td>
-            <td>{{ item.has.sum}}</td>
-            <td>{{ item.after.sum }}</td>
-            <td>{{ filtnum(item.rate.sum) }}</td>
 
-            <td>{{ item.has.A}}</td>
-            <td>{{ item.after.A }}</td>
-            <td>{{ filtnum(item.rate.A) }}</td>
-
-             <td>{{ item.has.B}}</td>
-            <td>{{ item.after.B }}</td>
-            <td>{{ filtnum(item.rate.B) }}</td>
-
-             <td>{{ item.has.C}}</td>
-            <td>{{ item.after.C }}</td>
-            <td>{{ filtnum(item.rate.C) }}</td>
-
-             <td>{{ item.has.D}}</td>
-            <td>{{ item.after.D }}</td>
-            <td>{{ filtnum(item.rate.D)}}</td>
-
-             <td>{{ item.has.E}}</td>
-            <td>{{ item.after.E }}</td>
-            <td>{{ filtnum(item.rate.E) }}</td>
-
-             <td>{{ item.has.F}}</td>
-            <td>{{ item.after.F }}</td>
-            <td>{{ filtnum(item.rate.F) }}</td>
-
-             <td>{{ item.has.G}}</td>
-            <td>{{ item.after.G }}</td>
-            <td>{{ filtnum(item.rate.G) }}</td>
-            
-             <td>{{ item.has.H}}</td>
-            <td>{{ item.after.H }}</td>
-            <td>{{ filtnum(item.rate.H) }}</td>
-            
-            <!-- <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td> -->
-          </tr>
-        </tbody>
-      </table>
-    </div>
     <!-- 底部 -->
     <!-- <div class="bottom">
       <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
@@ -263,6 +91,7 @@ import MAP_WENCHENG from "../geoJson/map_WenCheng";
 import MAP_PINGYANG from "../geoJson/map_PingYang";
 import MAP_RUIAN2 from "../geoJson/map_RuiAn2";
 import MAP_PINGYANG2 from "../geoJson/map_PingYang2";
+import fgqy from "./sfChart/fgqy";
 import {
   GEO_LUCHENG,
   GEO_OUHAI,
@@ -282,7 +111,7 @@ import {
 import axios from "axios";
 
 export default {
-  components: { fgtop },
+  components: { fgtop,fgqy },
   data() {
     return {
       tabdata: [
@@ -291,10 +120,14 @@ export default {
         { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
         { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" },
       ],
+      color:[],
       xq: [],
+      fixed_qy: { name: [], hb: [], rest: [] },
       sumwzg: 0,
       sumyzg: 0,
       sumrate: 0,
+      picactive:false,
+      fixed_yg: { name: [], hb: [], rest: [] },
       tm:"",
       title: "",
       impdata:0,
@@ -381,10 +214,13 @@ export default {
   },
   mounted() {
     const that = this;
+    this.color =this.$window.color_data.color;
+
     this.title = this.$route.query.label.replace(/产业集聚区/g, "");
     const [map, geo] = this.mapHash[this.$route.query.label]; //传值
     var jk;
     const objData = {};
+    const qyObj = {};
     this.cur_map = map;
     this.cur_geo = geo;
     this.XQMapInit();
@@ -399,7 +235,7 @@ export default {
     // params.append('data', JSON.stringify(this.rank));
     axios
       .get(
-        "https://sourcephone.wzcitybrain.com:8081/Interface/statistics/ProxyGetCityBraainData?params=&code=100023037&systype=1"
+        "https://sourcephone.wzcitybrain.com:8081/Interface/statistics/ProxyGetCityBraainData?params=&code=100023070&systype=1"
       )
       .then((res) => {
         that.jkList = JSON.parse(res.data.result);
@@ -410,23 +246,23 @@ export default {
         jkxq.map((item) => {
           const xjjd = item.town_name;
           //console.log(item.after_rectification_number_type_A)
-          this.dtarrya[0] +=parseInt(item.has_rectification_number_type_A);
-          this.dtarryb[0] +=parseInt(item.has_rectification_number_type_B);
-          this.dtarryc[0] +=parseInt(item.has_rectification_number_type_C);
-          this.dtarryd[0] +=parseInt(item.has_rectification_number_type_D);
-          this.dtarrye[0] +=parseInt(item.has_rectification_number_type_E);
-          this.dtarryf[0] +=parseInt(item.has_rectification_number_type_F);
-          this.dtarryg[0] +=parseInt(item.has_rectification_number_type_G);
-          this.dtarryh[0] +=parseInt(item.has_rectification_number_type_H);
+          // this.dtarrya[0] +=parseInt(item.has_rectification_number_type_A);
+          // this.dtarryb[0] +=parseInt(item.has_rectification_number_type_B);
+          // this.dtarryc[0] +=parseInt(item.has_rectification_number_type_C);
+          // this.dtarryd[0] +=parseInt(item.has_rectification_number_type_D);
+          // this.dtarrye[0] +=parseInt(item.has_rectification_number_type_E);
+          // this.dtarryf[0] +=parseInt(item.has_rectification_number_type_F);
+          // this.dtarryg[0] +=parseInt(item.has_rectification_number_type_G);
+          // this.dtarryh[0] +=parseInt(item.has_rectification_number_type_H);
 
-          this.dtarrya[1] +=parseInt(item.after_rectification_number_type_A);
-          this.dtarryb[1] +=parseInt(item.after_rectification_number_type_B);
-          this.dtarryc[1] +=parseInt(item.after_rectification_number_type_C);
-          this.dtarryd[1] +=parseInt(item.after_rectification_number_type_D);
-          this.dtarrye[1] +=parseInt(item.after_rectification_number_type_E);
-          this.dtarryf[1] +=parseInt(item.after_rectification_number_type_F);
-          this.dtarryg[1] +=parseInt(item.after_rectification_number_type_G);
-          this.dtarryh[1] +=parseInt(item.after_rectification_number_type_H);
+          // this.dtarrya[1] +=parseInt(item.after_rectification_number_type_A);
+          // this.dtarryb[1] +=parseInt(item.after_rectification_number_type_B);
+          // this.dtarryc[1] +=parseInt(item.after_rectification_number_type_C);
+          // this.dtarryd[1] +=parseInt(item.after_rectification_number_type_D);
+          // this.dtarrye[1] +=parseInt(item.after_rectification_number_type_E);
+          // this.dtarryf[1] +=parseInt(item.after_rectification_number_type_F);
+          // this.dtarryg[1] +=parseInt(item.after_rectification_number_type_G);
+          // this.dtarryh[1] +=parseInt(item.after_rectification_number_type_H);
           
           
           this.sumdateafter +=parseInt(item.after_rectification_number);
@@ -435,48 +271,57 @@ export default {
             (objData[xjjd] = {
               after: {
                 sum: parseInt(item.after_rectification_number),
-                A: parseInt(item.after_rectification_number_type_A),
-                B: parseInt(item.after_rectification_number_type_B),
-                C: parseInt(item.after_rectification_number_type_C),
-                D: parseInt(item.after_rectification_number_type_D),
-                E: parseInt(item.after_rectification_number_type_E),
-                F: parseInt(item.after_rectification_number_type_F),
-                G: parseInt(item.after_rectification_number_type_G),
-                H: parseInt(item.after_rectification_number_type_H),
               },
               has: {
                 sum: parseInt(item.has_rectification_number),
-                A: parseInt(item.has_rectification_number_type_A),
-                B: parseInt(item.has_rectification_number_type_B),
-                C: parseInt(item.has_rectification_number_type_C),
-                D: parseInt(item.has_rectification_number_type_D),
-                E: parseInt(item.has_rectification_number_type_E),
-                F: parseInt(item.has_rectification_number_type_F),
-                G: parseInt(item.has_rectification_number_type_G),
-                H: parseInt(item.has_rectification_number_type_H),
               },
               rate: {
                 sum: (parseInt(item.after_rectification_number)+parseInt(item.has_rectification_number))<=0?"100%":(parseInt(item.has_rectification_number)/(parseInt(item.after_rectification_number)+parseInt(item.has_rectification_number))*100).toFixed(1)+"%",
-                A: (parseInt(item.after_rectification_number_type_A)+parseInt(item.has_rectification_number_type_A))<=0?"100%":(parseInt(item.has_rectification_number_type_A)/(parseInt(item.after_rectification_number_type_A)+parseInt(item.has_rectification_number_type_A))*100).toFixed(1)+"%",
-                B: (parseInt(item.after_rectification_number_type_B)+parseInt(item.has_rectification_number_type_B))<=0?"100%":(parseInt(item.has_rectification_number_type_B)/(parseInt(item.after_rectification_number_type_B)+parseInt(item.has_rectification_number_type_B))*100).toFixed(1)+"%",
-                C: (parseInt(item.after_rectification_number_type_C)+parseInt(item.has_rectification_number_type_C))<=0?"100%":(parseInt(item.has_rectification_number_type_C)/(parseInt(item.after_rectification_number_type_C)+parseInt(item.has_rectification_number_type_C))*100).toFixed(1)+"%",
-                D: (parseInt(item.after_rectification_number_type_D)+parseInt(item.has_rectification_number_type_D))<=0?"100%":(parseInt(item.has_rectification_number_type_D)/(parseInt(item.after_rectification_number_type_D)+parseInt(item.has_rectification_number_type_D))*100).toFixed(1)+"%",
-                E: (parseInt(item.after_rectification_number_type_E)+parseInt(item.has_rectification_number_type_E))<=0?"100%":(parseInt(item.has_rectification_number_type_E)/(parseInt(item.after_rectification_number_type_E)+parseInt(item.has_rectification_number_type_E))*100).toFixed(1)+"%",
-                F: (parseInt(item.after_rectification_number_type_F)+parseInt(item.has_rectification_number_type_F))<=0?"100%":(parseInt(item.has_rectification_number_type_F)/(parseInt(item.after_rectification_number_type_F)+parseInt(item.has_rectification_number_type_F))*100).toFixed(1)+"%",
-                G: (parseInt(item.after_rectification_number_type_G)+parseInt(item.has_rectification_number_type_G))<=0?"100%":(parseInt(item.has_rectification_number_type_G)/(parseInt(item.after_rectification_number_type_G)+parseInt(item.has_rectification_number_type_G))*100).toFixed(1)+"%",
-                H: (parseInt(item.after_rectification_number_type_H)+parseInt(item.has_rectification_number_type_H))<=0?"100%":A(parseInt(item.has_rectification_number_type_H)/(parseInt(item.after_rectification_number_type_H)+parseInt(item.has_rectification_number_type_H))*100).toFixed(1)+"%",
               },
             });
 
-            this.sumdaterate = parseInt(this.sumdatehas+this.sumdateafter)<=0?"100":((this.sumdatehas/(this.sumdatehas+this.sumdateafter))*100).toFixed(2);
-            this.sumperson =parseInt(this.sumdatehas)+parseInt(this.sumdateafter);
+          !qyObj[xjjd] &&
+            (qyObj[xjjd] = { name: xjjd, Sumyzg: 0, Sumwzg: 0, rate: 0, rest: 0 });
+          qyObj[xjjd].Sumyzg =parseInt(item.has_rectification_number),
+          qyObj[xjjd].Sumwzg =  parseInt(item.after_rectification_number),
+          qyObj[xjjd].rate = (parseInt(item.after_rectification_number)+parseInt(item.has_rectification_number))<=0?100:(parseInt(item.has_rectification_number)/(parseInt(item.after_rectification_number)+parseInt(item.has_rectification_number))*100).toFixed(1);
+          console.log("ceshi",qyObj[xjjd].rate)
+          qyObj[xjjd].test = String(qyObj[xjjd].Sumyzg)+"/"+String(qyObj[xjjd].Sumwzg+qyObj[xjjd].Sumyzg);
+          this.sumdaterate = parseInt(this.sumdatehas+this.sumdateafter)<=0?"100":((this.sumdatehas/(this.sumdatehas+this.sumdateafter))*100).toFixed(2);
+          this.sumperson =parseInt(this.sumdatehas)+parseInt(this.sumdateafter);
         });
         that.objData = objData;
+        console.log(qyObj);
+
+        var _qy_ = [];
+        const fixed_qy = { name: [], Sumyzg: [], Sumwzg: [], rate: [], rest: [],test:[] };
+        for (let v in qyObj) {
+          if(v!="")
+          {
+            _qy_.push(qyObj[v]);
+          } 
+        }
+        //console.log("111",_qy_)
+        _qy_ = _qy_.sort((item,item2)=>{
+          return Number(item.rate)-Number(item2.rate);
+        })
+        _qy_.map(({ name, Sumyzg, Sumwzg, rate,test }) => {
+            fixed_qy.name.push(name);
+            fixed_qy.Sumyzg.push(Sumyzg);
+            fixed_qy.Sumwzg.push(Sumwzg);
+            fixed_qy.rate.push(Number(rate));
+            fixed_qy.test.push(test);
+            //fixed_qy.all.push(all);
+        });
+
+        console.log("12111111",fixed_qy)
         // that.objData = that.objData.sort(function(item,item2){
         //   return (Number(item.rate.sum) - Number(item.rate.sum));
         // })
-        
+        this.fixed_qy = fixed_qy;
+        this.picactive = true;
         that.infoactive=true;
+        
       });
       this.getimpinfo();
   },
