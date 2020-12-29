@@ -637,11 +637,11 @@ export default {
                 itemStyle: {
                   color:
                     !rate?"#b0b0b0"
-                      :rate < 95
+                      :rate < this.color[0]
                       ? "#f82727"
-                      : rate <99
+                      : rate <this.color[1]
                       ? "#ff912f"
-                      : rate < 100
+                      : rate < this.color[2]
                       ? "#64f855"
                       : "#30a5f0",
                 },

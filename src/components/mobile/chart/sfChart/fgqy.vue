@@ -10,13 +10,15 @@ export default {
   name: "fg-chart",
   data() {
     return {
-      title:'八类人员',
+      color:[],
     };
   },
   props: ["chartData","title"],
   methods: {
     ...mapActions(["fetchFgList"]),
     drawEchart() {
+
+      const self = this;
       this.chart = this.$echarts.init(this.$refs.fg);
       console.log("chart", this.chartData);
       var arry = this.chartData.test;
@@ -164,11 +166,11 @@ export default {
             itemStyle: {
               normal: {
                 color: function (param) {
-                  return param.value < 95
+                  return param.value < self.color[0]
                     ? "#f82727"
-                    : param.value < 99
+                    : param.value < self.color[1]
                     ? "#ff912f"
-                    : param.value < 100
+                    : param.value < self.color[2]
                     ? "#64f855"
                     : "#30a5f0";
                 },
@@ -196,6 +198,7 @@ export default {
     },
   },
   mounted() {
+    this.color =this.$window.color_data.color;
     this.fetchFgList().then(() => {
       this.drawEchart();
     });
